@@ -1,4 +1,4 @@
-// All Examples Written by Casey Reas and Ben Fry
+// Written by Richard Davis
 
 float bx;
 float by;

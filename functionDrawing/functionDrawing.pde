@@ -20,6 +20,8 @@ PFont myFont;
 void setup(){
   size(600, 400);
   background (127);
+  println("width = ", width);
+  println("height = ", height);
   // List all the available serial ports
   //println(Serial.list());
   port = new Serial(this, Serial.list()[5], 9600);  //
@@ -37,8 +39,8 @@ void draw(){
   fill(255);
   //ellipse(width/8, 75, radius*2, radius*2);
   // rotates rectangle around circle
-  px = width/8 + cos(radians(angle))*(radius);
-  py = 75 + sin(radians(angle))*(radius);
+  
+  py = height/2+(height/2)*sin(radians(angle));
   //rectMode(CENTER);
   fill(0);
   stroke(200);
@@ -50,7 +52,7 @@ void draw(){
   // draw static curve - y = sin(x)
   for (int i = 0; i< width; i++){
     //px2 = width/8 + cos(radians(angle2))*(radius);
-    py2 = 75 + sin(radians(angle2))*(radius);
+    py2 = height/2+(height/2)* sin(radians(angle2));
     point(width/8+radius+i, py2);
     angle2 -= frequency2;
   }
@@ -79,8 +81,7 @@ void draw(){
   //line(px, py, width/8+radius+x, py);
 
   // output some calculations
-  text("y = sin x", 35, 185);
-  text("px = " + px, 105, 185);
+  
   text("py = " + py, 215, 185);
 }
 
@@ -97,7 +98,7 @@ void serialEvent (Serial port) {
     
     fByte = map(fByte, -1000, 1000, 0, height); //map to the screen height.
     xByte = map(xByte, -500, 500, 0, width); //map to the screen width.
-    println("after: ", xByte, fByte);
+    //println("after: ", xByte, fByte);
   } 
  }
 

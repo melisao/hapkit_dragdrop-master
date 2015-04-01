@@ -9,6 +9,7 @@ float fByte;
 float px, py, px2, py2;
 float angle, angle2;
 float radius = 50;
+float amplitude = 0;
 float frequency = 2;
 float frequency2 = 2;
 float x, x2;
@@ -45,10 +46,10 @@ void draw(){
   // keep reinitializing to 0, to avoid
   // flashing during redrawing
   angle2 = 0;
-
+  //amplitude = height*20*0.09;
   // draw static curve - y = sin(x)
   for (int i = 0; i< width; i++){
-    px2 = width/8 + cos(radians(angle2))*(radius);
+    //px2 = width/8 + cos(radians(angle2))*(radius);
     py2 = 75 + sin(radians(angle2))*(radius);
     point(width/8+radius+i, py2);
     angle2 -= frequency2;
@@ -94,8 +95,8 @@ void serialEvent (Serial port) {
     String fString = trim(list[1]);
     fByte = float(fString);
     
-    fByte = map(fByte, -1023, 1023, 0, height); //map to the screen height.
-    xByte = map(xByte, -1023, 1023, 0, width); //map to the screen width.
+    fByte = map(fByte, -1000, 1000, 0, height); //map to the screen height.
+    xByte = map(xByte, -500, 500, 0, width); //map to the screen width.
     println("after: ", xByte, fByte);
   } 
  }

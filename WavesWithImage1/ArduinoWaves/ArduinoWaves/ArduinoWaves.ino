@@ -21,7 +21,7 @@
   double motorcalibration =  0.03;
   double kwave = 10.0;
   double ksine = 20;
-  double freq = 50; //CHange frequency of wave.
+  double freq = 3; //CHange frequency of wave.
 //#else
   //double motorcalibration =  0.0053;
   //double kwave = 10.0;
@@ -207,7 +207,7 @@ lastVel = vel;
        fAPrint = String((int)(force*(-400)));
       break;
      case 3:
-       force = (2)*sin((freq * x)/0.05);
+       force = (2)*sin((freq * x*2*PI)/0.05);
        //force = (ksine*0.009)*(sin((x-0.84)/0.008)*2.74+sin(x/0.0011)*0.69 + 40*x);
        xAPrint = String((int)(x*constant));
        fAPrint = String((int)(force*500));

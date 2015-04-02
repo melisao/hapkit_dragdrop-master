@@ -10,8 +10,8 @@ float px, py, px2, py2;
 float angle, angle2;
 float radius = 50;
 float amplitude = 0;
-float frequency = 2;
-float frequency2 = 2;
+float frequency = 3;
+float frequency2 = 3;
 float x, x2;
 
 // used to create font
@@ -40,7 +40,7 @@ void draw(){
   //ellipse(width/8, 75, radius*2, radius*2);
   // rotates rectangle around circle
   
-  py = height/2+(height/2)*sin(radians(angle));
+  py = height/2+(height/2)*sin((2*PI*frequency*2/width)*x);
   //rectMode(CENTER);
   fill(0);
   stroke(200);
@@ -52,28 +52,25 @@ void draw(){
   // draw static curve - y = sin(x)
   for (int i = 0; i< width; i++){
     //px2 = width/8 + cos(radians(angle2))*(radius);
-    py2 = height/2+(height/2)* sin(radians(angle2));
-    point(width/8+radius+i, py2);
-    angle2 -= frequency2;
+    py2 = height/2+(height/2)* sin((2*PI*frequency*2/width)*i);
+    point(i, py2);
   }
 
   // send small ellipse along sine curve
   // to illustrate relationship of circle to wave
   noStroke();
-  ellipse(width/8+radius+x, py, 5, 5);
-  angle -= frequency;
+  ellipse(x, py, 5, 5);
   x+=1;
 
   // when little ellipse reaches end of window
   // reinitialize some variables
-  if (x>= width-60) {
+  if (x>= width) {
     x = 0;
-    angle = 0;
   }
   
   stroke(127,34,255);     //stroke color
   //point(width-xByte, fByte);
-  ellipse(width-xByte, fByte, 5, 5);
+  ellipse(width-xByte, height-fByte, 5, 5);
 
   // draw dynamic line connecting circular
   // path with wave
@@ -98,7 +95,7 @@ void serialEvent (Serial port) {
     
     fByte = map(fByte, -1000, 1000, 0, height); //map to the screen height.
     xByte = map(xByte, -500, 500, 0, width); //map to the screen width.
-    //println("after: ", xByte, fByte);
+    println("after: ", xByte, fByte);
   } 
  }
 

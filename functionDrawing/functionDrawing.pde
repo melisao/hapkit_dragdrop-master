@@ -6,13 +6,12 @@ boolean isA = true;
 float xByte;
 float fByte;
 
-float px, py, px2, py2;
-float angle, angle2;
-float radius = 50;
-float amplitude = 0;
+float  py, py2;
+float x;
+
+//variables that should be shared between both codes
+float amplitude = 1;
 float frequency = 3;
-float frequency2 = 3;
-float x, x2;
 
 // used to create font
 PFont myFont;
@@ -39,18 +38,17 @@ void draw(){
   fill(255);
   
   
-  py = height/2+(height/2)*sin((2*PI*frequency*2/width)*x);
+  py = height/2+(height/2)*amplitude*sin((2*PI*frequency*2/width)*x);
 
   fill(0);
   stroke(200);
 
   // keep reinitializing to 0, to avoid
   // flashing during redrawing
-  //amplitude = height*20*0.09;
   // draw static curve - y = sin(x)
   for (int i = 0; i< width; i++){
     //px2 = width/8 + cos(radians(angle2))*(radius);
-    py2 = height/2+(height/2)* sin((2*PI*frequency*2/width)*i);
+    py2 = height/2+(height/2)*amplitude* sin((2*PI*frequency*2/width)*i);
     point(i, py2);
   }
 

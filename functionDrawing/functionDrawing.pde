@@ -37,17 +37,15 @@ void draw(){
   background (127);
   noStroke();
   fill(255);
-  //ellipse(width/8, 75, radius*2, radius*2);
-  // rotates rectangle around circle
+  
   
   py = height/2+(height/2)*sin((2*PI*frequency*2/width)*x);
-  //rectMode(CENTER);
+
   fill(0);
   stroke(200);
 
   // keep reinitializing to 0, to avoid
   // flashing during redrawing
-  angle2 = 0;
   //amplitude = height*20*0.09;
   // draw static curve - y = sin(x)
   for (int i = 0; i< width; i++){
@@ -69,16 +67,9 @@ void draw(){
   }
   
   stroke(127,34,255);     //stroke color
-  //point(width-xByte, fByte);
   ellipse(width-xByte, height-fByte, 5, 5);
 
-  // draw dynamic line connecting circular
-  // path with wave
-  //stroke(50);
-  //line(px, py, width/8+radius+x, py);
-
   // output some calculations
-  
   text("py = " + py, 215, 185);
 }
 

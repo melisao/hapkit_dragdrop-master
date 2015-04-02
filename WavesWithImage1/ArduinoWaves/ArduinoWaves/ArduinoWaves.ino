@@ -19,14 +19,8 @@
 // just commenting out for now then.
 //#ifdef THREE_D_PRINT
   double motorcalibration =  0.03;
-  double kwave = 10.0;
-  double ksine = 20;
-  double freq = 3; //CHange frequency of wave.
 //#else
   //double motorcalibration =  0.0053;
-  //double kwave = 10.0;
-  //double ksine = 1;
-  //double freq = 2000;
 //#endif
 
 
@@ -80,6 +74,12 @@ String xAPrint = 0;
 String fAPrint = 0;
 int constant = 10000;
 int count = 0;
+
+// Variables that can be changed by processing code:
+int functionNumber = 3;        //the function that should be playing right now
+double amplitude = 1;         // a number between 0 and 1 that represents the proportion of amplitude
+double freq = 3;             // the number of cycles in half of the screen.
+
 
 /*****************************
 * function name: setup
@@ -173,7 +173,7 @@ void loop()
 
  thetaSector = m*updatedPos + b;      //based on linear-fit (theta_s is in radians)
  //---Enter calculations to find "x" and "vel" of handle-----------
- thetaSector = (thetaSector *PI)/180;
+ thetaSector = (thetaSector *PI)/180; //convert thetaSector to radians
  x = lx*thetaSector;                  //x-position of sector pulley in [m]
 
  vel = -(.95*.95)*lastLastVel + 2*.95*lastVel + (1-.95)*(1-.95)*(x-lastx)/.0001;  //filtered velocity (2nd order filter)
@@ -187,28 +187,21 @@ lastVel = vel;
   //*** Section 3. Assign a motor output force in Newtons *******  
   //*************************************************************
   
-   int testVE = 3;        //change depending on which VE you want to test
    
-   switch (testVE)
+   
+   switch (functionNumber)
    {
     case 0:
-       force = kwave * x;
-       xAPrint = String((int)(x*constant));
-       fAPrint = String((int)(force*200));
+       
      break;
      case 1:
-       force =kwave * pow(x,2);
-       xAPrint = String((int)(x*constant));
-       fAPrint = String((int)(force*(-400)));
+       
      break;
      case 2:
-       force = kwave*(pow(x,3));
-       xAPrint = String((int)(x*constant));
-       fAPrint = String((int)(force*(-400)));
+       
       break;
      case 3:
-       force = (2)*sin((freq * x*2*PI)/0.05);
-       //force = (ksine*0.009)*(sin((x-0.84)/0.008)*2.74+sin(x/0.0011)*0.69 + 40*x);
+       force = (2*amplitude)*sin((freq * x*2*PI)/0.05);
        xAPrint = String((int)(x*constant));
        fAPrint = String((int)(force*500));
      break;

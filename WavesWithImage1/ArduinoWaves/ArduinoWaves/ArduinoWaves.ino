@@ -1,7 +1,5 @@
 /*****************************
-* WavesWithImage1 functions file.
-*  \file WavesWithImage1.io
-*  \brief WavesWithImage1 functions file.
+* ArduinoWaves functions file.
 *  This file contains the functions to feel waves using a Hapkit and sends 
 *  the position and force at the handle to be ploted by processing.
 *  
@@ -73,18 +71,9 @@ double rp = 0.004191;   //[m]
 double rs = 0.073152;   //[m]
 
 // MR calibration fit
-double m = 0.00019;     //linear curve fit (theta_s = m*pos + b) to ME sensor data
-double b = -0.095;
+double m = -0.0106;     //linear curve fit (theta_s = m*pos + b) to ME sensor data
+double b = 9.8235;
 
-
-//Constants for velocity filtering
-double ao = 2500;            //wn^2 (where wn=50)
-double a1 = 100;             //2*zeta*wn (where zeta=1)
-double T = 0.001;            //sample period [sec]
-double A = 1/((2*ao*T*T)+2*a1*T+4);
-double B = 4-2*a1*T+ao*T*T;
-double C = 8-2*ao*T*T;
-double D = ao*T*T;
 
 // Processing variables
 String xAPrint = 0;
@@ -184,6 +173,7 @@ void loop()
 
  thetaSector = m*updatedPos + b;      //based on linear-fit (theta_s is in radians)
  //---Enter calculations to find "x" and "vel" of handle-----------
+ thetaSector = (thetaSector *PI)/180;
  x = lx*thetaSector;                  //x-position of sector pulley in [m]
 
  vel = -(.95*.95)*lastLastVel + 2*.95*lastVel + (1-.95)*(1-.95)*(x-lastx)/.0001;  //filtered velocity (2nd order filter)

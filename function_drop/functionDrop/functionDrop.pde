@@ -8,7 +8,7 @@ int functionWindowHeight;
 int functionWindowWidth;
 
 void setup() {
-  size(800, 1000);
+  size(800, 800);
   textSize = 20; 
   textFont(createFont("Times New Roman", textSize));
   // Create function strings
@@ -72,7 +72,7 @@ class FnCollection {
     for (int i=0, last=strings.length; i<last; i++) {
       x = (int) random(padding, width - padding);
       y = (int) random(height - (height/4 + padding), height - padding);
-      fnblocks[i] = new FnBlock(strings[i], x, y, color(random(255)), 1, , 3);
+      fnblocks[i] = new FnBlock(strings[i], x, y, color(random(255)), 1, 1, 3);
     }
   }
 

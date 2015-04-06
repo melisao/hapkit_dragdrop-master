@@ -12,7 +12,7 @@ float  py, py2;
 //variables that should be shared between both codes
 float amplitude = 1; //has to be between 0 and 1
 float frequency = 3;
-int functionNumber = 1;
+int functionNumber = 0;
 
 //to be called at the end
 void setupFunctionWindow()

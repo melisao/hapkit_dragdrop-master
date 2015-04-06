@@ -3,6 +3,12 @@
 import processing.serial.*;
 Serial port;
 
+float xByte;
+float fByte;
+
+float  py, py2;
+
+
 //variables that should be shared between both codes
 float amplitude = 1; //has to be between 0 and 1
 float frequency = 3;

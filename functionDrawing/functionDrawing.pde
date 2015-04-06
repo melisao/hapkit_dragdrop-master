@@ -12,6 +12,7 @@ float x;
 //variables that should be shared between both codes
 float amplitude = 1;
 float frequency = 3;
+int functionNumber = 0;
 
 // used to create font
 PFont myFont;

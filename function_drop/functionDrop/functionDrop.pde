@@ -143,16 +143,32 @@ class FnBlock {
   }
   
   void dropTargetCheck() {
+    // Create a buffer around the droptarget so it registers more drop events
+    int dtBuffer = 20;
     // If the fnblock is on top of the drop target, print the name of the function to the console.
     // Later replace this with an actual function call.
-    println(s);
+    if (droptarget.x-dtBuffer <= x && x <= droptarget.x+droptarget.w && droptarget.y <= y+dtBuffer && y <= droptarget.y+droptarget.h) {
+      //println(s);
+      if(droptarget.drop(this) == true) {
+        println("Drop successful.");
+      } else {
+        println("Target full.");
+      }
+    } else {
+      if(droptarget.remove(this) == true) {
+        println("Removed function.");
+      } else {
+        println("Function not removed.");
+      }
+    }
   }
 }
 
 class DropTarget {
   float x, y, w, h;
-  boolean active;
+  boolean dtempty = true;
   color fillColor = color(200);
+  FnBlock curFn;
 
   public DropTarget(int _x, int _y) {
     x = _x;
@@ -166,6 +182,35 @@ class DropTarget {
     stroke(153);
     rect(x, y, w, h);
   }
+  
+  boolean empty() {
+    return dtempty;
+  }
+  
+  boolean drop(FnBlock fnblock) {
+    // Attempting to drop a block on the target will return true if 
+    // successful. Otherwise it will return false.
+    if (dtempty) {
+      curFn = fnblock;
+      println(fnblock.s);
+      dtempty = false;
+      return true;
+    } else {
+      return false;
+    }
+  }
+  
+  boolean remove(FnBlock fnblock) {
+    // Remove a block from the drop target.
+    if (curFn == fnblock) {
+      curFn = null;
+      dtempty = true;
+      return true;
+    } else {
+      return false;
+    }
+  }
+  
 }
 
 /*

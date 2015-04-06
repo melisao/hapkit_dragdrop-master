@@ -21,7 +21,13 @@ void setup(){
   noLoop();
 }
 // fall through drawing
-void draw() { drawbg(); droptarget.draw(); fnblocks.draw(); }// canvas.draw();}
+void draw() 
+{ 
+drawbg(); 
+drawFucntion();
+droptarget.draw(); 
+fnblocks.draw(); 
+}// canvas.draw();}
 
 // fall through event handling
 void mouseMoved() { fnblocks.mouseMoved(mouseX,mouseY); redraw(); }

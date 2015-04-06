@@ -4,9 +4,11 @@ FnCollection fnblocks;
 DropTarget droptarget;
 float textSize;
 int padding = 20;
+int functionWindowHeight;
+int functionWindowWidth;
 
 void setup(){
-  size(640,480);
+  size(800,1000);
   textSize = 20; 
   textFont(createFont("Times New Roman", textSize));
   // Create function strings
@@ -30,7 +32,9 @@ void mouseReleased() { fnblocks.mouseReleased(mouseX,mouseY); redraw(); }
 void drawbg() {
   background(255);
   fill(255);
-  rect(10, 10, width - padding, height - (height/4 + padding));
+  functionWindowHeight = height - (height/4 + 2*padding);
+  functionWindowWidth = width - 2*padding;
+  rect(padding, padding,functionWindowWidth, functionWindowHeight); // Draw the rectangle for the canvas
 }
 
 /**

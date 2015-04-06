@@ -7,6 +7,8 @@ int padding = 20;
 int functionWindowHeight;
 int functionWindowWidth;
 
+
+
 void setup(){
   size(800,1000);
   textSize = 20; 
@@ -18,13 +20,14 @@ void setup(){
   droptarget = new DropTarget(10, height - (height/4)); // Change this later 
   // Do not loop! only update when events warrant,
   // based on redraw() calls  
-  noLoop();
+  //noLoop();
+  setupFunctionWindow();
 }
 // fall through drawing
 void draw() 
 { 
 drawbg(); 
-drawFucntion();
+drawFunctionWindow();
 droptarget.draw(); 
 fnblocks.draw(); 
 }// canvas.draw();}

@@ -1,4 +1,7 @@
 
+//Serial communication variables
+import processing.serial.*;
+Serial port;
 
 //variables that should be shared between both codes
 float amplitude = 1; //has to be between 0 and 1
@@ -6,7 +9,7 @@ float frequency = 3;
 int functionNumber = 1;
 
 //to be called at the end
-void setupFunctionWindow( void )
+void setupFunctionWindow()
 {
   port = new Serial(this, Serial.list()[5], 9600);  //
   // A serialEvent() is generated when a newline character is received :
@@ -14,7 +17,7 @@ void setupFunctionWindow( void )
 }
 
 
-void drawFunctionWindow( void )
+void drawFunctionWindow(  )
 {
   
   //py = functionWindowHeight/2+(functionWindowHeight/2)*amplitude*sin((2*PI*frequency*2/functionWindowWidth)*x);

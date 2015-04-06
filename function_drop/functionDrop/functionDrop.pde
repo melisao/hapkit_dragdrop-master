@@ -3,22 +3,23 @@
 FnCollection fnblocks;
 DropTarget droptarget;
 float textSize;
+int padding = 20;
 
 void setup(){
   size(640,480);
   textSize = 20; 
   textFont(createFont("Times New Roman", textSize));
   // Create function strings
-  String[] textValues = new String[]{"X+1","X+2"};
+  String[] textValues = new String[]{"f(x) = x + 1","f(x) = x + 2"};
   // Create collection for FnBlocks
   fnblocks = new FnCollection(textValues);
-  droptarget = new DropTarget(10, height - (height/3)); // Change this later 
+  droptarget = new DropTarget(10, height - (height/4)); // Change this later 
   // Do not loop! only update when events warrant,
   // based on redraw() calls  
   noLoop();
 }
 // fall through drawing
-void draw() { background(255); droptarget.draw(); fnblocks.draw(); }// canvas.draw();}
+void draw() { drawbg(); droptarget.draw(); fnblocks.draw(); }// canvas.draw();}
 
 // fall through event handling
 void mouseMoved() { fnblocks.mouseMoved(mouseX,mouseY); redraw(); }
@@ -26,6 +27,11 @@ void mousePressed() { fnblocks.mousePressed(mouseX,mouseY); redraw(); }
 void mouseDragged() { fnblocks.mouseDragged(mouseX,mouseY); redraw(); }
 void mouseReleased() { fnblocks.mouseReleased(mouseX,mouseY); redraw(); }
 
+void drawbg() {
+  background(255);
+  fill(255);
+  rect(10, 10, width - padding, height - (height/4 + padding));
+}
 
 /**
  * A collection of function blocks. This is *only* a collecton,
@@ -33,15 +39,14 @@ void mouseReleased() { fnblocks.mouseReleased(mouseX,mouseY); redraw(); }
  */
 class FnCollection {
   FnBlock[] fnblocks;
-  int boundaryOverlap = 20;
 
   // construct
   FnCollection(String[] strings){
     fnblocks = new FnBlock[strings.length];
     int x, y;
     for(int i=0, last=strings.length; i<last; i++) {
-      x = (int) random(0, width);
-      y = (int) random(height - (height/3), height-20);
+      x = (int) random(padding, width - padding);
+      y = (int) random(height - (height/4 + padding), height - padding);
       fnblocks[i] = new FnBlock(strings[i], x, y, color(random(255)));   
     }
   }
@@ -144,11 +149,9 @@ class FnBlock {
   }
   
   void dropTargetCheck() {
-    // Create a buffer around the droptarget so it registers more drop events
-    int dtBuffer = 20;
     // If the fnblock is on top of the drop target, print the name of the function to the console.
     // Later replace this with an actual function call.
-    if (droptarget.x-dtBuffer <= x && x <= droptarget.x+droptarget.w && droptarget.y <= y+dtBuffer && y <= droptarget.y+droptarget.h) {
+    if (droptarget.x-padding <= x && x <= droptarget.x+droptarget.w && droptarget.y <= y+padding && y <= droptarget.y+droptarget.h) {
       //println(s);
       if(droptarget.dropfn(this) == true) {
         println("Drop successful.");

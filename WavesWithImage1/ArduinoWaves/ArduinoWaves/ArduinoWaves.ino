@@ -76,10 +76,12 @@ int constant = 10000;
 int count = 0;
 
 // Variables that can be changed by processing code:
-int functionNumber = 3;        //the function that should be playing right now
+int functionNumber = 0;        //the function that should be playing right now
 double amplitude = 1;         // a number between 0 and 1 that represents the proportion of amplitude
 double freq = 3;             // the number of cycles in half of the screen.
 
+char serialInputBuffer[4]; //one more than lengthInputBuffer in case the null character has to be read in also
+int lengthInputBuffer = 3;
 
 /*****************************
 * function name: setup
@@ -188,22 +190,23 @@ lastVel = vel;
 //*************************************************************
   
    
-   
    switch (functionNumber)
    {
     case 0:
-       
+       force = 0;
+       xAPrint = String((int)(x*constant));
+       fAPrint = String((int)(force*500));
      break;
      case 1:
-       
+       force = (2*amplitude)*sin((freq * x*2*PI)/0.05);
+       xAPrint = String((int)(x*constant));
+       fAPrint = String((int)(force*500));
      break;
      case 2:
        
       break;
      case 3:
-       force = (2*amplitude)*sin((freq * x*2*PI)/0.05);
-       xAPrint = String((int)(x*constant));
-       fAPrint = String((int)(force*500));
+       
      break;
     default:
      force = 0;
@@ -242,13 +245,43 @@ lastVel = vel;
   analogWrite(pwmPinA,output);    // output the signal
     
   
-  //********************** Data to send to Processing **********************
+  //********************** Data to send and receive from Processing **********************
   
   if(count > 6) {
+    if (Serial.available() > 3) 
+    {
+        // read the incoming buffer:
+        Serial.readBytesUntil(255,serialInputBuffer,lengthInputBuffer);
+        functionNumber = serialInputBuffer[0];
+        amplitude = serialInputBuffer[1];
+        amplitude = amplitude/100;
+        if (amplitude > 1)
+        {
+          amplitude = 1;
+        }
+        else
+        {
+          if (amplitude < -1)
+          {
+            amplitude = -1;
+          }
+        }
+        freq = serialInputBuffer[2];
+        freq = freq/10;
+         //debug:
+        //Serial.print(String((int)functionNumber));
+        //Serial.print(",");
+        //Serial.print(String((int)(amplitude*100)));
+        //Serial.print(",");
+        //Serial.print(String((int)(freq*10)));
+        //Serial.print("\n");
+      }
     Serial.print(xAPrint);
     Serial.print(",");
     Serial.print(fAPrint);
     Serial.print("\n");
+    
+   
     count = 0;
   } else {
     count ++; 

@@ -10,9 +10,15 @@ float  py, py2;
 
 
 //variables that should be shared between both codes
+int functionNumber = 0;
 float amplitude = 1; //has to be between 0 and 1
 float frequency = 3;
-int functionNumber = 0;
+
+int pastFunctionNumber = 0;
+float pastAmplitude = 1;
+float pastFrequency = 3;
+
+char[] SendBuffer = new char[4];
 
 //to be called at the end
 void setupFunctionWindow()
@@ -25,6 +31,15 @@ void setupFunctionWindow()
 
 void drawFunctionWindow(  )
 {
+  if ((functionNumber != pastFunctionNumber) || 
+      (amplitude != pastAmplitude) ||
+      (frequency != pastFrequency))
+      {
+        pastFunctionNumber = functionNumber;
+        pastAmplitude = amplitude;
+        pastFrequency = frequency;
+        sendNewValues();
+      }
   
   //py = functionWindowHeight/2+(functionWindowHeight/2)*amplitude*sin((2*PI*frequency*2/functionWindowWidth)*x);
   for (int i = padding; i< functionWindowWidth+padding; i++)
@@ -64,9 +79,20 @@ void serialEvent (Serial port) {
     
     fByte = map(fByte, -1000, 1000, 0, functionWindowHeight); //map to the screen height.
     xByte = map(xByte, -500, 500, 0, functionWindowWidth); //map to the screen width.
-    println("after: ", xByte, fByte);
+    //println("after: ", xByte, fByte);
   } 
  }
 
-
+void sendNewValues()
+{
+    SendBuffer[0] = 1;//(char)functionNumber;
+    SendBuffer[1] = 100;//(char)(amplitude*100);
+    SendBuffer[2] = 30;//(char)(frequency * 10);
+    SendBuffer[3] = 255;
+    port.write(SendBuffer[0]);
+    port.write(SendBuffer[1]);
+    port.write(SendBuffer[2]);
+    port.write(SendBuffer[3]);
+    println(SendBuffer[0],SendBuffer[1],SendBuffer[2],SendBuffer[3]);
+}
 

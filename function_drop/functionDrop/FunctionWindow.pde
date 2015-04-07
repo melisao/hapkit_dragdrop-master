@@ -42,8 +42,11 @@ void drawFunctionWindow(  )
         py2 = 0;
       break;
       }
+      strokeWeight(3);
       point(i, py2);
    }
+  line(width/2, padding, width/2, functionWindowHeight+padding);
+  line(padding, functionWindowHeight/2+padding, width - padding, functionWindowHeight/2+padding);
   stroke(127,34,255);     //stroke color
   ellipse(functionWindowWidth-xByte, padding+functionWindowHeight-fByte, 5, 5); 
 }

@@ -13,7 +13,7 @@ void setup() {
   textFont(createFont("Times New Roman", textSize));
   // Create function strings
   String[] textValues = new String[] {
-    "f(x) = x + 1", "f(x) = x + 2"
+    "f(x) = sin(x)", "f(x) = 2sin(0.5x)"
   };
   // Create collection for FnBlocks
   fnblocks = new FnCollection(textValues);

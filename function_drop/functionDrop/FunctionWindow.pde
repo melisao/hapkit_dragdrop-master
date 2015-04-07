@@ -27,7 +27,7 @@ void drawFunctionWindow(  )
 {
   
   //py = functionWindowHeight/2+(functionWindowHeight/2)*amplitude*sin((2*PI*frequency*2/functionWindowWidth)*x);
-  for (int i = 0; i< functionWindowWidth; i++)
+  for (int i = padding; i< functionWindowWidth+padding; i++)
   {
     //px2 = width/8 + cos(radians(angle2))*(radius);
     switch(functionNumber)
@@ -36,7 +36,7 @@ void drawFunctionWindow(  )
         py2 = 0;
       break;
       case 1:
-        py2 = functionWindowHeight/2+(functionWindowHeight/2)*amplitude* sin((2*PI*frequency*2/functionWindowWidth)*i);
+        py2 = padding+functionWindowHeight/2+(functionWindowHeight/2)*amplitude* sin((2*PI*frequency*2/functionWindowWidth)*i);
       break;
       default:
         py2 = 0;
@@ -45,7 +45,7 @@ void drawFunctionWindow(  )
       point(i, py2);
    }
   stroke(127,34,255);     //stroke color
-  ellipse(functionWindowWidth-xByte, functionWindowHeight-fByte, 5, 5); 
+  ellipse(functionWindowWidth-xByte, padding+functionWindowHeight-fByte, 5, 5); 
 }
 
 void serialEvent (Serial port) {

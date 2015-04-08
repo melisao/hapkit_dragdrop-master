@@ -35,14 +35,15 @@ void drawFunctionWindow(  )
       (amplitude != pastAmplitude) ||
       (frequency != pastFrequency))
       {
+        sendNewValues();
         pastFunctionNumber = functionNumber;
         pastAmplitude = amplitude;
         pastFrequency = frequency;
-        sendNewValues();
+        
       }
   
   //py = functionWindowHeight/2+(functionWindowHeight/2)*amplitude*sin((2*PI*frequency*2/functionWindowWidth)*x);
-  for (int i = padding; i< functionWindowWidth+padding; i++)
+  for (int i = 0; i< functionWindowWidth; i++)
   {
     //px2 = width/8 + cos(radians(angle2))*(radius);
     switch(functionNumber)
@@ -51,19 +52,20 @@ void drawFunctionWindow(  )
         py2 = 0;
       break;
       case 1:
-        py2 = padding+functionWindowHeight/2+(functionWindowHeight/2)*amplitude* sin((2*PI*frequency*2/functionWindowWidth)*i);
+        py2 = functionWindowHeight/2+(functionWindowHeight/2)*amplitude* sin((2*PI*frequency*2/functionWindowWidth)*i);
       break;
       default:
         py2 = 0;
       break;
       }
       strokeWeight(3);
-      point(i, py2);
+      point(i+padding, (functionWindowHeight-py2)+padding);
    }
   line(width/2, padding, width/2, functionWindowHeight+padding);
   line(padding, functionWindowHeight/2+padding, width - padding, functionWindowHeight/2+padding);
   stroke(127,34,255);     //stroke color
-  ellipse(functionWindowWidth-xByte, padding+functionWindowHeight-fByte, 5, 5); 
+  ellipse(xByte+padding, padding+functionWindowHeight-fByte, 5, 5); 
+ 
 }
 
 void serialEvent (Serial port) {
@@ -85,9 +87,9 @@ void serialEvent (Serial port) {
 
 void sendNewValues()
 {
-    SendBuffer[0] = 1;//(char)functionNumber;
-    SendBuffer[1] = 100;//(char)(amplitude*100);
-    SendBuffer[2] = 30;//(char)(frequency * 10);
+    SendBuffer[0] = (char)functionNumber;//(char)functionNumber;
+    SendBuffer[1] = (char)(amplitude*100);
+    SendBuffer[2] = (char)(frequency * 10);
     SendBuffer[3] = 255;
     port.write(SendBuffer[0]);
     port.write(SendBuffer[1]);

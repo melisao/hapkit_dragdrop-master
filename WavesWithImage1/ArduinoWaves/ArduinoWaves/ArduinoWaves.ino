@@ -80,8 +80,8 @@ int functionNumber = 0;        //the function that should be playing right now
 double amplitude = 1;         // a number between 0 and 1 that represents the proportion of amplitude
 double freq = 3;             // the number of cycles in half of the screen.
 
-char serialInputBuffer[4]; //one more than lengthInputBuffer in case the null character has to be read in also
-int lengthInputBuffer = 3;
+char serialInputBuffer[4]; 
+int lengthInputBuffer = 4; //need to flush out the ENTIRE transmission! Otherwise it gets super confused
 
 /*****************************
 * function name: setup
@@ -247,8 +247,7 @@ lastVel = vel;
   
   //********************** Data to send and receive from Processing **********************
   
-  if(count > 6) {
-    if (Serial.available() > 3) 
+  if (Serial.available() > 3) 
     {
         // read the incoming buffer:
         Serial.readBytesUntil(255,serialInputBuffer,lengthInputBuffer);
@@ -268,14 +267,10 @@ lastVel = vel;
         }
         freq = serialInputBuffer[2];
         freq = freq/10;
-         //debug:
-        //Serial.print(String((int)functionNumber));
-        //Serial.print(",");
-        //Serial.print(String((int)(amplitude*100)));
-        //Serial.print(",");
-        //Serial.print(String((int)(freq*10)));
-        //Serial.print("\n");
       }
+  
+  if(count > 6) {
+    
     Serial.print(xAPrint);
     Serial.print(",");
     Serial.print(fAPrint);

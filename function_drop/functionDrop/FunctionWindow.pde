@@ -51,14 +51,29 @@ void drawFunctionWindow(  )
       case 0:
         py2 = 0;
       break;
-      case 1:
+      case 1: // sine
         py2 = functionWindowHeight/2+(functionWindowHeight/2)*amplitude* sin((2*PI*frequency*2/functionWindowWidth)*i);
+      break;
+      case 2: //cos
+        py2 = functionWindowHeight/2+(functionWindowHeight/2)*amplitude* cos((2*PI*frequency*2/functionWindowWidth)*i);
+      break;
+      case 3: //-x
+        //py2 = functionWindowHeight-(i*functionWindowHeight*amplitude/functionWindowWidth);//functionWindowHeight/2-(functionWindowHeight/2)*amplitude*(i/functionWindowWidth-1);
+        py2 = functionWindowHeight/2 - 2*(functionWindowHeight*amplitude/functionWindowWidth) * (i - functionWindowWidth/2);
       break;
       default:
         py2 = 0;
       break;
       }
       strokeWeight(3);
+      if (py2 > functionWindowHeight)
+      {
+        py2 = functionWindowHeight;
+      }
+      else if (py2 < 0)
+      {
+        py2 = 0;
+      }
       point(i+padding, (functionWindowHeight-py2)+padding);
    }
   line(width/2, padding, width/2, functionWindowHeight+padding);

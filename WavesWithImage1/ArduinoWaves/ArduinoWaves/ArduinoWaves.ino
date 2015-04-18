@@ -65,7 +65,7 @@ double rp = 0.004191;   //[m]
 double rs = 0.073152;   //[m]
 
 // MR calibration fit
-double m = -0.0106;     //linear curve fit (theta_s = m*pos + b) to ME sensor data
+double m = 0.0106; //-    //linear curve fit (theta_s = m*pos + b) to ME sensor data
 double b = 9.8235;
 
 
@@ -193,25 +193,32 @@ lastVel = vel;
    switch (functionNumber)
    {
     case 0:
-       force = 0;
-       xAPrint = String((int)(x*constant));
-       fAPrint = String((int)(force*500));
+       force = 0; 
      break;
-     case 1:
+     case 3:
        force = (2*amplitude)*sin((freq * x*2*PI)/0.05);
-       xAPrint = String((int)(x*constant));
-       fAPrint = String((int)(force*500));
      break;
      case 2:
-       
+       force = (2*amplitude)*cos((freq * x*2*PI)/0.05);
       break;
-     case 3:
-       
+     case 1:
+       force = -2*amplitude*(x/0.05);
      break;
     default:
      force = 0;
- }
-   
+   }
+   // clip the force, never want more than 2 newtons. Maybe revise this number. if it gets revised need
+   // to change all the constants. 
+   if (force >2)
+   {
+       force = 2;
+   }
+   else if (force < -2)
+   {
+     force = -2;
+   }
+   xAPrint = String((int)(x*constant));
+   fAPrint = String((int)(force*500));
   
   //*************************************************************
   //*** Section 4. Force output (do not change) *****************

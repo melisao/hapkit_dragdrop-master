@@ -1,18 +1,29 @@
 // Code based on http://stackoverflow.com/a/15306450
 import java.util.Map;
+import controlP5.*;
 
 FnCollection fnblocks;
 DropTarget droptarget;
+ControlP5 cp5;
 
 float textSize;
 int padding = 20;
 int functionWindowHeight;
 int functionWindowWidth;
+//int slider_amp;
+//int slider_freq;
 
 void setup() {
   size(800, 800);
   textSize = 20; 
   textFont(createFont("Times New Roman", textSize));
+
+  droptarget = new DropTarget(padding, height - (height/4)); 
+
+  // Create ControlP5 object for the amplitude and frequency sliders
+  cp5 = new ControlP5(this);
+  setupGUI();
+
   // Create function strings
   String[] textValues = new String[] {
     "f(x) = sin(x)", "f(x) = 2sin(0.5x)"
@@ -26,7 +37,6 @@ void setup() {
   fnblocks.updateBlock(1, "f(x) = sin(x)", 1, 1);
   fnblocks.updateBlock(2, "f(x) = 2sin(0.5x)", 2, 0.5);
 
-  droptarget = new DropTarget(10, height - (height/4)); // Change this later 
   // Do not loop! only update when events warrant,
   // based on redraw() calls  
   //noLoop();
@@ -106,29 +116,29 @@ class FnCollection {
     //  }"
     // except we don't have to unpack our list manually.
 
-    for (FnBlock f : fnblocks.values()) {
+    for (FnBlock f : fnblocks.values ()) {
       f.draw();
     }
   }
 
   // fall through event handling
   void mouseMoved(int mx, int my) { 
-    for (FnBlock f : fnblocks.values()) { 
+    for (FnBlock f : fnblocks.values ()) { 
       f.mouseMoved(mx, my);
     }
   } 
   void mousePressed(int mx, int my) { 
-    for (FnBlock f : fnblocks.values()) { 
+    for (FnBlock f : fnblocks.values ()) { 
       f.mousePressed(mx, my);
     }
   } 
   void mouseDragged(int mx, int my) { 
-    for (FnBlock f : fnblocks.values()) { 
+    for (FnBlock f : fnblocks.values ()) { 
       f.mouseDragged(mx, my);
     }
   }
   void mouseReleased(int mx, int my) { 
-    for (FnBlock f : fnblocks.values()) { 
+    for (FnBlock f : fnblocks.values ()) { 
       f.mouseReleased(mx, my);
     }
   }
@@ -271,9 +281,7 @@ class DropTarget {
       curFn = fnblock;
       print("Calling function from FnBlock: ");
 
-      functionNumber = fnblock.myFunctionNumber;
-      amplitude = fnblock.myAmplitude;
-      frequency = fnblock.myFrequency;
+      draw_function(fnblock);
 
       //println(fnblock.s); // Placeholder for function call
       dtempty = false;
@@ -298,3 +306,45 @@ class DropTarget {
   }
 }
 
+void setupGUI() {
+  // Create horizontal amplitude slider
+  // The value of this slider will be linked to the global slider_amp attribute 
+  cp5.addSlider("sliderAmp")
+    .setPosition(droptarget.x + droptarget.w + padding, droptarget.y)
+      .setRange(0, 2)
+        ;
+
+  // Create horizontal frequency slider
+  // The value of this slider will be linked to the global slider_freq attribute 
+  cp5.addSlider("sliderFreq")
+    .setPosition(droptarget.x + droptarget.w + padding, droptarget.y + padding)
+      .setRange(0, 2)
+        ;
+}
+
+void sliderAmp(float slider_amp) {
+  // Update the current function block 
+  println("Slider amp is " + slider_amp);
+
+  if (!droptarget.empty()) {
+    droptarget.curFn.myAmplitude = slider_amp;
+  }
+  draw_function(droptarget.curFn);
+}
+
+void sliderFreq(float slider_freq) {
+  // Update the current function block 
+  println("Slider amp is " + slider_freq);
+  
+  if (!droptarget.empty()) {
+    droptarget.curFn.myFrequency = slider_freq;
+  }
+  draw_function(droptarget.curFn);
+}
+
+void draw_function(FnBlock fblock) {
+  //variables that should be shared between both codes
+  functionNumber = fblock.myFunctionNumber;
+  amplitude = fblock.myAmplitude;
+  frequency = fblock.myFrequency;
+}

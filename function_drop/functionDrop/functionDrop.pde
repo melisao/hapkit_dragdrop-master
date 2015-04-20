@@ -1,4 +1,4 @@
-// Code based on http://stackoverflow.com/a/15306450
+// Drag and Drop Code based on http://stackoverflow.com/a/15306450
 import java.util.Map;
 import controlP5.*;
 
@@ -10,8 +10,6 @@ float textSize;
 int padding = 20;
 int functionWindowHeight;
 int functionWindowWidth;
-//int slider_amp;
-//int slider_freq;
 
 void setup() {
   size(800, 800);
@@ -34,8 +32,8 @@ void setup() {
 
   // Add FnBlocks to FnCollection
   // Add more functions here!
-  fnblocks.updateBlock(1, "f(x) = sin(x)", 1, 1);
-  fnblocks.updateBlock(2, "f(x) = 2sin(0.5x)", 2, 0.5);
+  fnblocks.updateBlock(1, "sin", 1, 1);
+  fnblocks.updateBlock(2, "cos", 2, 0.5);
 
   // Do not loop! only update when events warrant,
   // based on redraw() calls  
@@ -95,7 +93,7 @@ class FnCollection {
       temp_block = fnblocks.get(myFunctionNumber_);
       temp_block.myAmplitude = myAmplitude_;
       temp_block.myFrequency = myFrequency_;
-      temp_block.s = s_;
+      temp_block.base_string = s_;
     } else {
       int x = (int) random(padding, width - padding);
       int y = (int) random(height - (height/4 + padding), height - padding);
@@ -148,7 +146,7 @@ class FnCollection {
  * Individual FnBlocks
  */
 class FnBlock {
-  String s;
+  String base_string;
   float x, y, w, h;
   boolean active;
   color baseColor = 0;
@@ -161,7 +159,8 @@ class FnBlock {
   int myFunctionNumber = 0;
 
   public FnBlock(String s_, int x_, int y_, color c_, int myFunctionNumber_, float myAmplitude_, float myFrequency_) {    
-    s = s_;
+    base_string = s_;
+    String s = "f(x) = " + myAmplitude + "(" + base_string + "(" + myFrequency + "x))";
     x = x_;
     y = y_;
     w = textWidth(s);
@@ -173,6 +172,9 @@ class FnBlock {
   }
 
   void draw() {
+    String ramp = String.format("%.2f", myAmplitude);
+    String rfreq = String.format("%.2f", myFrequency);
+    String s = "f(x) = " + ramp + "(" + base_string + "(" + rfreq + "x))";
     fill(fillColor);
     text(s, ox+x, oy+y+h);
   }
@@ -343,7 +345,7 @@ void sliderFreq(float slider_freq) {
 }
 
 void draw_function(FnBlock fblock) {
-  //variables that should be shared between both codes
+  // Update the global function parameters
   functionNumber = fblock.myFunctionNumber;
   amplitude = fblock.myAmplitude;
   frequency = fblock.myFrequency;

@@ -22,6 +22,7 @@ void setup() {
   fnblocks = new FnCollection();
 
   // Add FnBlocks to FnCollection
+  // Add more functions here!
   fnblocks.updateBlock(1, "f(x) = sin(x)", 1, 1);
   fnblocks.updateBlock(2, "f(x) = 2sin(0.5x)", 2, 0.5);
 

@@ -1,7 +1,9 @@
 // Code based on http://stackoverflow.com/a/15306450
+import java.util.Map;
 
 FnCollection fnblocks;
 DropTarget droptarget;
+
 float textSize;
 int padding = 20;
 int functionWindowHeight;
@@ -15,8 +17,14 @@ void setup() {
   String[] textValues = new String[] {
     "f(x) = sin(x)", "f(x) = 2sin(0.5x)"
   };
+
   // Create collection for FnBlocks
-  fnblocks = new FnCollection(textValues);
+  fnblocks = new FnCollection();
+
+  // Add FnBlocks to FnCollection
+  fnblocks.updateBlock(1, "f(x) = sin(x)", 1, 1);
+  fnblocks.updateBlock(2, "f(x) = 2sin(0.5x)", 2, 0.5);
+
   droptarget = new DropTarget(10, height - (height/4)); // Change this later 
   // Do not loop! only update when events warrant,
   // based on redraw() calls  
@@ -30,7 +38,7 @@ void draw()
   drawFunctionWindow();
   droptarget.draw(); 
   fnblocks.draw();
-}// canvas.draw();}
+}
 
 // fall through event handling
 void mouseMoved() { 
@@ -63,17 +71,26 @@ void drawbg() {
  * it is simply responsible for passing along events.
  */
 class FnCollection {
-  FnBlock[] fnblocks;
+  HashMap<Integer, FnBlock> fnblocks;
 
-  // construct
-  FnCollection(String[] strings) {
-    fnblocks = new FnBlock[strings.length];
-    int x, y;
-    for (int i=0, last=strings.length; i<last; i++) {
-      x = (int) random(padding, width - padding);
-      y = (int) random(height - (height/4 + padding), height - padding);
-      fnblocks[i] = new FnBlock(strings[i], x, y, color(random(255)), 1, 1, 3);
+  // construct 
+  FnCollection() {
+    fnblocks = new HashMap<Integer, FnBlock>();
+  }
+
+  void updateBlock(int myFunctionNumber_, String s_, float myAmplitude_, float myFrequency_) {
+    FnBlock temp_block;
+    if (fnblocks.containsKey(myFunctionNumber_)) {
+      temp_block = fnblocks.get(myFunctionNumber_);
+      temp_block.myAmplitude = myAmplitude_;
+      temp_block.myFrequency = myFrequency_;
+      temp_block.s = s_;
+    } else {
+      int x = (int) random(padding, width - padding);
+      int y = (int) random(height - (height/4 + padding), height - padding);
+      temp_block = new FnBlock(s_, x, y, color(random(255)), myFunctionNumber_, myAmplitude_, myFrequency_);
     }
+    fnblocks.put(myFunctionNumber_, temp_block);
   }
 
   // fall through drawing   
@@ -88,29 +105,29 @@ class FnCollection {
     //  }"
     // except we don't have to unpack our list manually.
 
-    for (FnBlock f : fnblocks) { 
+    for (FnBlock f : fnblocks.values()) {
       f.draw();
     }
   }
 
   // fall through event handling
   void mouseMoved(int mx, int my) { 
-    for (FnBlock f : fnblocks) { 
+    for (FnBlock f : fnblocks.values()) { 
       f.mouseMoved(mx, my);
     }
   } 
   void mousePressed(int mx, int my) { 
-    for (FnBlock f : fnblocks) { 
+    for (FnBlock f : fnblocks.values()) { 
       f.mousePressed(mx, my);
     }
   } 
   void mouseDragged(int mx, int my) { 
-    for (FnBlock f : fnblocks) { 
+    for (FnBlock f : fnblocks.values()) { 
       f.mouseDragged(mx, my);
     }
   }
   void mouseReleased(int mx, int my) { 
-    for (FnBlock f : fnblocks) { 
+    for (FnBlock f : fnblocks.values()) { 
       f.mouseReleased(mx, my);
     }
   }
@@ -132,10 +149,10 @@ class FnBlock {
   float myFrequency = 0;
   int myFunctionNumber = 0;
 
-  public FnBlock(String _s, int _x, int _y, color _c, int myFunctionNumber_, float myAmplitude_, float myFrequency_) {    
-    s = _s;
-    x = _x;
-    y = _y;
+  public FnBlock(String s_, int x_, int y_, color c_, int myFunctionNumber_, float myAmplitude_, float myFrequency_) {    
+    s = s_;
+    x = x_;
+    y = y_;
     w = textWidth(s);
     h = textSize;
     //fillColor = _c;
@@ -229,9 +246,9 @@ class DropTarget {
   color fillColor = color(200);
   FnBlock curFn;
 
-  public DropTarget(int _x, int _y) {
-    x = _x;
-    y = _y;
+  public DropTarget(int x_, int y_) {
+    x = x_;
+    y = y_;
     w = 200;
     h = textSize;
   }
@@ -252,11 +269,11 @@ class DropTarget {
     if (dtempty) {
       curFn = fnblock;
       print("Calling function from FnBlock: ");
-      
+
       functionNumber = fnblock.myFunctionNumber;
       amplitude = fnblock.myAmplitude;
       frequency = fnblock.myFrequency;
-      
+
       //println(fnblock.s); // Placeholder for function call
       dtempty = false;
       return true;

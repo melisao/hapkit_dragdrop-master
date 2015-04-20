@@ -23,7 +23,7 @@ char[] SendBuffer = new char[4];
 //to be called at the end
 void setupFunctionWindow()
 {
-  port = new Serial(this, Serial.list()[5], 9600);  //
+  port = new Serial(this, Serial.list()[3], 9600);  //
   // A serialEvent() is generated when a newline character is received :
   port.bufferUntil('\n');
 }

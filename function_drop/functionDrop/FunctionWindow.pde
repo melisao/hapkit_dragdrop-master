@@ -5,9 +5,7 @@ Serial port;
 
 float xByte;
 float fByte;
-
 float  py, py2;
-
 
 //variables that should be shared between both codes
 int functionNumber = 0;

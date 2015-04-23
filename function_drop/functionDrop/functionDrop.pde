@@ -313,7 +313,7 @@ void setupGUI() {
   // The value of this slider will be linked to the sliderAmp function
   cp5.addSlider("sliderAmp")
     .setPosition(droptarget.x + droptarget.w + padding, droptarget.y)
-      .setRange(0, 1)
+      .setRange(-1, 1)
         ;
 
   // Create horizontal frequency slider
@@ -322,6 +322,13 @@ void setupGUI() {
     .setPosition(droptarget.x + droptarget.w + padding, droptarget.y + padding)
       .setRange(0, 3)
         ;
+        
+  // create a new button with name 'Quiz'
+  cp5.addButton("startQuiz")
+     .setValue(0)
+     .setPosition(width - 150, height - 50)
+     .setSize(100,20)
+     ;
 }
 
 void sliderAmp(float slider_amp) {
@@ -351,3 +358,7 @@ void draw_function(FnBlock fblock) {
   frequency = fblock.myFrequency;
 }
 
+public void startQuiz(int buttonValue) {
+  println("a button event from startQuiz: "+buttonValue);
+  DRAWFUNCTION = !DRAWFUNCTION;
+}

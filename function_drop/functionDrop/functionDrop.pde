@@ -313,7 +313,7 @@ void setupGUI() {
   // The value of this slider will be linked to the sliderAmp function
   cp5.addSlider("sliderAmp")
     .setPosition(droptarget.x + droptarget.w + padding, droptarget.y)
-      .setRange(0, 1)
+      .setRange(-1, 1)
         ;
 
   // Create horizontal frequency slider

@@ -17,7 +17,7 @@ void setup() {
   textFont(createFont("Times New Roman", textSize));
 
   droptarget = new DropTarget(padding, height - (height/4)); 
-
+  
   // Create ControlP5 object for the amplitude and frequency sliders
   cp5 = new ControlP5(this);
   setupGUI();
@@ -320,7 +320,7 @@ void setupGUI() {
   // The value of this slider will be linked to the sliderFreq function 
   cp5.addSlider("sliderFreq")
     .setPosition(droptarget.x + droptarget.w + padding, droptarget.y + padding)
-      .setRange(0, 10)
+      .setRange(0, 3)
         ;
 }
 

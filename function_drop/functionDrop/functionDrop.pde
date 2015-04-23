@@ -47,6 +47,7 @@ void draw()
   drawFunctionWindow();
   droptarget.draw(); 
   fnblocks.draw();
+  MainStateMachine();
 }
 
 // fall through event handling

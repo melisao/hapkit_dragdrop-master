@@ -15,15 +15,6 @@ void MainStateMachine( )
      case 2:
        Question2();
      break;
-     case 3:
-       Question3();
-     break;
-     case 4:
-       Question4();
-     break;
-     case 5:
-       Question5();
-     break;
      default:
        PlayMode();
      break;
@@ -35,25 +26,22 @@ void MainStateMachine( )
 
 void PlayMode( )
 {
-  
+  // the button should say quiz
+  //everything should be displayed
+  //sliders should be dynamic
 }
 void Question1()
 {
-  
+  // the button should say continue
+  //no graph
+  //sliders are static
+  //yes equation: 0.5sin(2x)
 }
 void Question2()
 {
-  
+  // the button should say continue
+  //yes graph
+  //sliders are static
+  // no equation displayed : 0.6cos(3x)
 }
-void Question3()
-{
-  
-}
-void Question4()
-{
-  
-}
-void Question5()
-{
-  
-}
+

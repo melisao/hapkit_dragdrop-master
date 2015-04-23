@@ -65,20 +65,20 @@ double rp = 0.004191;   //[m]
 double rs = 0.073152;   //[m]
 
 // MR calibration fit
-double m = 0.0106; //-    //linear curve fit (theta_s = m*pos + b) to ME sensor data
+double m = -0.0106; //-    //linear curve fit (theta_s = m*pos + b) to ME sensor data
 double b = 9.8235;
 
 
 // Processing variables
-String xAPrint = "0";
-String fAPrint = "0";
+String xAPrint = 0;
+String fAPrint = 0;
 int constant = 10000;
 int count = 0;
 
 // Variables that can be changed by processing code:
 int functionNumber = 0;        //the function that should be playing right now
 double amplitude = 1;         // a number between 0 and 1 that represents the proportion of amplitude
-double freq = 3;             // the number of cycles in half of the screen.
+double freq = 1;             // the number of cycles in half of the screen.
 
 char serialInputBuffer[4]; 
 int lengthInputBuffer = 4; //need to flush out the ENTIRE transmission! Otherwise it gets super confused

@@ -12,7 +12,7 @@ float  py, py2;
 //variables that should be shared between both codes
 int functionNumber = 0;
 float amplitude = 1; //has to be between 0 and 1
-float frequency = 3;
+float frequency = 1;
 
 int pastFunctionNumber = 0;
 float pastAmplitude = 1;
@@ -86,7 +86,9 @@ void drawFunctionWindow(  )
 void serialEvent (Serial port) {
   // get the ASCII string:
   String inString = port.readStringUntil('\n');
-  if (inString != null) {
+  println("got serial event! \n");
+  if (inString != null) 
+  {
     String[] list = split(inString, ',');
     
     String xString = trim(list[0]);                // trim off whitespaces.
@@ -96,7 +98,7 @@ void serialEvent (Serial port) {
     
     fByte = map(fByte, -1000, 1000, 0, functionWindowHeight); //map to the screen height.
     xByte = map(xByte, -500, 500, 0, functionWindowWidth); //map to the screen width.
-    //println("after: ", xByte, fByte);
+    println("after: ", xByte, fByte);
   } 
  }
 

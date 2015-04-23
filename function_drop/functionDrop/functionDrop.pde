@@ -230,18 +230,19 @@ class FnBlock {
   }
 
   void dropTargetCheck() {
-    // If the fnblock is on top of the drop target, print the name of the function to the console.
-    // Later replace this with an actual function call.
+    // If this function block is dropped on top of the target and the target is empty, add it to the droptarget.
     if (droptarget.x-padding <= x && x <= droptarget.x+droptarget.w && droptarget.y <= y+padding && y <= droptarget.y+droptarget.h) {
-      //println(s);
       if (droptarget.dropfn(this) == true) {
         println("Drop successful.");
         baseColor = color(255, 0, 0);
         draw();
       } else {
+        // If there is already a function in there, do nothing. 
         println("Target full.");
       }
     } else {
+      // If this function block was dropped outside of the droptarget and it was previously in there, 
+      // remove it.
       if (droptarget.removefn(this) == true) {
         println("Removed function.");
         baseColor = 0;
@@ -285,7 +286,6 @@ class DropTarget {
 
       draw_function(fnblock);
 
-      //println(fnblock.s); // Placeholder for function call
       dtempty = false;
       return true;
     } else {
@@ -310,14 +310,14 @@ class DropTarget {
 
 void setupGUI() {
   // Create horizontal amplitude slider
-  // The value of this slider will be linked to the global slider_amp attribute 
+  // The value of this slider will be linked to the sliderAmp function
   cp5.addSlider("sliderAmp")
     .setPosition(droptarget.x + droptarget.w + padding, droptarget.y)
       .setRange(0, 2)
         ;
 
   // Create horizontal frequency slider
-  // The value of this slider will be linked to the global slider_freq attribute 
+  // The value of this slider will be linked to the sliderFreq function 
   cp5.addSlider("sliderFreq")
     .setPosition(droptarget.x + droptarget.w + padding, droptarget.y + padding)
       .setRange(0, 2)
@@ -325,7 +325,7 @@ void setupGUI() {
 }
 
 void sliderAmp(float slider_amp) {
-  // Update the current function block 
+  // Update the current function block with a new amplitude
   println("Slider amp is " + slider_amp);
 
   if (!droptarget.empty()) {
@@ -335,9 +335,9 @@ void sliderAmp(float slider_amp) {
 }
 
 void sliderFreq(float slider_freq) {
-  // Update the current function block 
+  // Update the current function block with a new frequency
   println("Slider amp is " + slider_freq);
-  
+
   if (!droptarget.empty()) {
     droptarget.curFn.myFrequency = slider_freq;
   }
@@ -350,3 +350,4 @@ void draw_function(FnBlock fblock) {
   amplitude = fblock.myAmplitude;
   frequency = fblock.myFrequency;
 }
+

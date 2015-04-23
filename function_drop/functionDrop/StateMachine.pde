@@ -26,7 +26,7 @@ void MainStateMachine( )
      break;
      default:
        PlayMode();
-     break
+     break;
  
    } 
   

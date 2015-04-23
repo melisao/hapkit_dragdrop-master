@@ -33,7 +33,7 @@ void setup() {
   // Add FnBlocks to FnCollection
   // Add more functions here!
   fnblocks.updateBlock(1, "sin", 1, 1);
-  fnblocks.updateBlock(2, "cos", 2, 0.5);
+  fnblocks.updateBlock(2, "cos", 1, 1);
 
   // Do not loop! only update when events warrant,
   // based on redraw() calls  
@@ -313,14 +313,14 @@ void setupGUI() {
   // The value of this slider will be linked to the sliderAmp function
   cp5.addSlider("sliderAmp")
     .setPosition(droptarget.x + droptarget.w + padding, droptarget.y)
-      .setRange(0, 2)
+      .setRange(0, 1)
         ;
 
   // Create horizontal frequency slider
   // The value of this slider will be linked to the sliderFreq function 
   cp5.addSlider("sliderFreq")
     .setPosition(droptarget.x + droptarget.w + padding, droptarget.y + padding)
-      .setRange(0, 2)
+      .setRange(0, 10)
         ;
 }
 

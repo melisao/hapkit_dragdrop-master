@@ -61,7 +61,7 @@ void drawFunctionWindow(  )
           py2 = (functionWindowHeight/2) * amplitude*cos((2*PI*frequency*2/functionWindowWidth)*i);
         break;
         case 1: //-x
-          py2 =  (-functionWindowHeight/2)*(amplitude/functionWindowWidth) * (i - functionWindowWidth/2);
+          py2 =  (-functionWindowHeight/functionWindowWidth)*(amplitude) * (i);
         break;
         default:
           py2 = 0;

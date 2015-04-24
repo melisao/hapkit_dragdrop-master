@@ -361,5 +361,16 @@ void draw_function(FnBlock fblock) {
 
 public void startQuiz(int buttonValue) {
   println("a button event from startQuiz: "+buttonValue);
-  DRAWFUNCTION = !DRAWFUNCTION;
+  float tempVal = buttonValue;
+  STATENUMBER = (int)tempVal;
+  if (tempVal >= 2) {
+    tempVal = 0;
+  } else {
+    tempVal += 1;
+  }
+  println(cp5.getController("startQuiz").getValue());
+  cp5.getController("startQuiz").setBroadcast(false);
+  cp5.getController("startQuiz").setValue(tempVal);
+  cp5.getController("startQuiz").setBroadcast(true);
 }
+

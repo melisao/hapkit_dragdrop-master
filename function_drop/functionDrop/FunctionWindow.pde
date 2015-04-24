@@ -1,7 +1,7 @@
 
 //Serial communication variables
 import processing.serial.*;
-int serialPort = 5;
+int serialPort = 3;
 Serial port;
 
 float xByte;
@@ -89,7 +89,7 @@ void drawFunctionWindow(  )
 void serialEvent (Serial port) {
   // get the ASCII string:
   String inString = port.readStringUntil('\n');
-  println("got serial event! \n");
+  //println("got serial event! \n");
   if (inString != null) 
   {
     String[] list = split(inString, ',');
@@ -101,7 +101,7 @@ void serialEvent (Serial port) {
     
     fByte = map(fByte, -1000, 1000, 0, functionWindowHeight); //map to the screen height.
     xByte = map(xByte, -500, 500, 0, functionWindowWidth); //map to the screen width.
-    println("after: ", xByte, fByte);
+    //println("after: ", xByte, fByte);
   } 
  }
 
@@ -115,6 +115,6 @@ void sendNewValues()
     port.write(SendBuffer[1]);
     port.write(SendBuffer[2]);
     port.write(SendBuffer[3]);
-    println(SendBuffer[0],SendBuffer[1],SendBuffer[2],SendBuffer[3]);
+    //println(SendBuffer[0],SendBuffer[1],SendBuffer[2],SendBuffer[3]);
 }
 

@@ -46,7 +46,7 @@ void drawFunctionWindow(  )
   if (DRAWFUNCTION == true)
   {
     //py = functionWindowHeight/2+(functionWindowHeight/2)*amplitude*sin((2*PI*frequency*2/functionWindowWidth)*x);
-    for (int i = 0; i< functionWindowWidth; i++)
+    for (int i = -(functionWindowWidth/2); i< (functionWindowWidth/2); i++)
     {
       //px2 = width/8 + cos(radians(angle2))*(radius);
       switch(functionNumber)
@@ -54,30 +54,29 @@ void drawFunctionWindow(  )
         case 0:
           py2 = 0;
         break;
-        case 1: // sine
-          py2 = functionWindowHeight/2+(functionWindowHeight/2)*amplitude* sin((2*PI*frequency*2/functionWindowWidth)*i);
+        case 3: // sine
+          py2 = (functionWindowHeight/2) * amplitude*sin((2*PI*frequency*2/functionWindowWidth)*i);
         break;
         case 2: //cos
-          py2 = functionWindowHeight/2+(functionWindowHeight/2)*amplitude* cos((2*PI*frequency*2/functionWindowWidth)*i);
+          py2 = (functionWindowHeight/2) * amplitude*cos((2*PI*frequency*2/functionWindowWidth)*i);
         break;
-        case 3: //-x
-          //py2 = functionWindowHeight-(i*functionWindowHeight*amplitude/functionWindowWidth);//functionWindowHeight/2-(functionWindowHeight/2)*amplitude*(i/functionWindowWidth-1);
-          py2 = functionWindowHeight/2 - 2*(functionWindowHeight*amplitude/functionWindowWidth) * (i - functionWindowWidth/2);
+        case 1: //-x
+          py2 =  (-functionWindowHeight/2)*(amplitude/functionWindowWidth) * (i - functionWindowWidth/2);
         break;
         default:
           py2 = 0;
         break;
       }
         strokeWeight(3);
-        if (py2 > functionWindowHeight)
+        if (py2 > functionWindowHeight/2)
         {
-          py2 = functionWindowHeight;
+          py2 = functionWindowHeight/2;
         }
-        else if (py2 < 0)
+        else if (py2 < (-functionWindowHeight/2))
         {
-          py2 = 0;
+          py2 = -functionWindowHeight/2;
         }
-        point(i+padding, (functionWindowHeight-py2)+padding);
+        point(i+padding+functionWindowWidth/2, -py2+padding+functionWindowHeight/2);
      }
     line(width/2, padding, width/2, functionWindowHeight+padding);
     line(padding, functionWindowHeight/2+padding, width - padding, functionWindowHeight/2+padding);

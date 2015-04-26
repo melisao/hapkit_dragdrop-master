@@ -17,7 +17,7 @@ void setup() {
   textFont(createFont("Times New Roman", textSize));
 
   droptarget = new DropTarget(padding, height - (height/4)); 
-  
+
   // Create ControlP5 object for the amplitude and frequency sliders
   cp5 = new ControlP5(this);
   setupGUI();
@@ -82,6 +82,7 @@ void drawbg() {
  */
 class FnCollection {
   HashMap<Integer, FnBlock> fnblocks;
+  public boolean hide = false;
 
   // construct 
   FnCollection() {
@@ -102,6 +103,14 @@ class FnCollection {
     }
     fnblocks.put(myFunctionNumber_, temp_block);
   }
+  
+  FnBlock getFn(int fnNumber) {
+    if (fnblocks.containsKey(fnNumber)) {
+      return (fnblocks.get(fnNumber));
+    } else {
+      return null;
+    }
+  }
 
   // fall through drawing   
   void draw() {
@@ -115,8 +124,10 @@ class FnCollection {
     //  }"
     // except we don't have to unpack our list manually.
 
-    for (FnBlock f : fnblocks.values ()) {
-      f.draw();
+    if (!this.hide) {
+      for (FnBlock f : fnblocks.values ()) {
+        f.draw();
+      }
     }
   }
 
@@ -170,6 +181,11 @@ class FnBlock {
     myFunctionNumber = myFunctionNumber_;
     myAmplitude = myAmplitude_;
     myFrequency = myFrequency_;
+  }
+  
+  void randomLocation() {
+    x = (int) random(padding, width - padding);
+    y = (int) random(height - (height/4 + padding), height - padding);
   }
 
   void draw() {
@@ -307,6 +323,21 @@ class DropTarget {
       return false;
     }
   }
+
+  boolean removeCurFn() {
+    // Remove the current function block (if any)
+    if (!this.empty()) {
+      curFn.randomLocation();
+      curFn = null;
+      dtempty = true;
+      functionNumber = 0;
+      amplitude = 0;
+      frequency = 0;
+      return true;
+    } else {
+      return false;
+    }
+  }
 }
 
 void setupGUI() {
@@ -316,6 +347,7 @@ void setupGUI() {
     .setPosition(droptarget.x + droptarget.w + padding, droptarget.y)
       .setRange(-1, 1)
         ;
+  cp5.getController("sliderAmp").getCaptionLabel().setText("Amplitude").setColor(0);
 
   // Create horizontal frequency slider
   // The value of this slider will be linked to the sliderFreq function 
@@ -323,13 +355,14 @@ void setupGUI() {
     .setPosition(droptarget.x + droptarget.w + padding, droptarget.y + padding)
       .setRange(0, 3)
         ;
-        
+  cp5.getController("sliderFreq").getCaptionLabel().setText("Frequency").setColor(0);
+
   // create a new button with name 'Quiz'
   cp5.addButton("startQuiz")
-     .setValue(0)
-     .setPosition(width - 150, height - 50)
-     .setSize(100,20)
-     ;
+    .setValue(0)
+      .setPosition(width - 150, height - 50)
+        .setSize(100, 20)
+          ;
 }
 
 void sliderAmp(float slider_amp) {
@@ -369,6 +402,9 @@ public void startQuiz(int buttonValue) {
     tempVal += 1;
   }
   println(cp5.getController("startQuiz").getValue());
+  // If the button is set to broadcast, setting the value will trigger an event.
+  // This cause the button to go into an infinite loop. To prevent this, disable
+  // broadcast, set the value, and re-enable broadcast.
   cp5.getController("startQuiz").setBroadcast(false);
   cp5.getController("startQuiz").setValue(tempVal);
   cp5.getController("startQuiz").setBroadcast(true);

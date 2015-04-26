@@ -1,7 +1,7 @@
 
 //Serial communication variables
 import processing.serial.*;
-int serialPort = 5;
+int serialPort = 5; //set this variable to be the serial Port that your HAPKIT is connected to
 Serial port;
 
 float xByte;
@@ -54,13 +54,13 @@ void drawFunctionWindow(  )
         case 0:
           py2 = 0;
         break;
-        case 3: // sine
+        case 1: // sine
           py2 = (functionWindowHeight/2) * amplitude*sin((2*PI*frequency*2/functionWindowWidth)*i);
         break;
         case 2: //cos
           py2 = (functionWindowHeight/2) * amplitude*cos((2*PI*frequency*2/functionWindowWidth)*i);
         break;
-        case 1: //-x
+        case 3: //-x
           py2 =  (-functionWindowHeight/functionWindowWidth)*(amplitude) * (i);
         break;
         default:

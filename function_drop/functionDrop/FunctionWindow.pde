@@ -1,7 +1,7 @@
 
 //Serial communication variables
 import processing.serial.*;
-int serialPort = 3;
+int serialPort = 5;
 Serial port;
 
 float xByte;

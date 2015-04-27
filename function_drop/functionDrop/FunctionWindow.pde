@@ -1,7 +1,7 @@
 
 //Serial communication variables
 import processing.serial.*;
-int serialPort = 3; //set this variable to be the serial Port that your HAPKIT is connected to
+int serialPort = 5; //set this variable to be the serial Port that your HAPKIT is connected to
 Serial port;
 
 float xByte;

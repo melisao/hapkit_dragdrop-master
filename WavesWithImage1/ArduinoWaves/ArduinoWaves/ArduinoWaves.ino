@@ -173,7 +173,7 @@ void loop()
   //*** Section 2. Compute position in meters *******************
   //*************************************************************
 
- thetaSector = m*updatedPos + b;      //based on linear-fit (theta_s is in radians)
+ thetaSector = m*updatedPos + b;      //based on linear-fit (theta_s is in degrees)
  //---Enter calculations to find "x" and "vel" of handle-----------
  thetaSector = (thetaSector *PI)/180; //convert thetaSector to radians
  x = lx*thetaSector;                  //x-position of sector pulley in [m]

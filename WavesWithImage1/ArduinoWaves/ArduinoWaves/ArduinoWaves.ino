@@ -77,8 +77,8 @@ int count = 0;
 
 // Variables that can be changed by processing code:
 int functionNumber = 0;        //the function that should be playing right now
-double amplitude = 1;         // a number between 0 and 1 that represents the proportion of amplitude
-double freq = 1;             // the number of cycles in half of the screen.
+double amplitude = 0;         // a number between 0 and 1 that represents the proportion of amplitude
+double freq = 0;             // the number of cycles in half of the screen.
 
 char serialInputBuffer[4]; 
 int lengthInputBuffer = 4; //need to flush out the ENTIRE transmission! Otherwise it gets super confused

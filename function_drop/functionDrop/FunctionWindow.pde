@@ -102,7 +102,7 @@ void serialEvent (Serial port) {
     
     fByte = map(fByte, -1000, 1000, 0, functionWindowHeight); //map to the screen height.
     xByte = map(xByte, -500, 500, 0, functionWindowWidth); //map to the screen width.
-    //println("after: ", xByte, fByte);
+    println("after: ", xByte, fByte);
   } 
  }
 

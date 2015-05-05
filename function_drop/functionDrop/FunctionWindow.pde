@@ -75,10 +75,10 @@ void drawFunctionWindow(  )
           py2 = 0;
         break;
         case 1: // sine
-          py2 = (f_WindowHeight/2) * amplitude*sin((2*PI*frequency*2/f_WindowWidth)*float(i));
+          py2 = (f_WindowHeight/2) * amplitude*sin((2*PI*frequency*2/f_WindowWidth)*i);
         break;
         case 2: //cos
-          py2 = (f_WindowHeight/2) * amplitude*cos((2*PI*frequency*2/f_WindowWidth)*float(i));
+          py2 = (f_WindowHeight/2) * amplitude*cos((2*PI*frequency*2/f_WindowWidth)*i);
         break;
         case 3: //-x
           py2 =  (-f_WindowHeight/f_WindowWidth) *amplitude* float(i);

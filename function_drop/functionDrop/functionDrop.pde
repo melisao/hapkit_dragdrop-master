@@ -11,6 +11,11 @@ int padding = 20;
 int functionWindowHeight;
 int functionWindowWidth;
 
+int unitCircleWindowHeight;
+int unitCircleWindowWidth;
+int unitCircleWindowX;
+int unitCircleWindowY;
+
 void setup() {
   size(800, 800);
   textSize = 20; 
@@ -21,6 +26,12 @@ void setup() {
   // Create ControlP5 object for the amplitude and frequency sliders
   cp5 = new ControlP5(this);
   setupGUI();
+  functionWindowHeight = height - (height/4 + 3*padding);
+  functionWindowWidth = width - (width/4 + 3*padding);
+  unitCircleWindowY =  padding;
+  unitCircleWindowX = functionWindowWidth + 2*padding;
+  unitCircleWindowWidth = width - functionWindowWidth-3*padding;
+  unitCircleWindowHeight = unitCircleWindowWidth;
 
   // Create function strings
   String[] textValues = new String[] {
@@ -39,6 +50,7 @@ void setup() {
   // based on redraw() calls  
   //noLoop();
   setupFunctionWindow();
+  setupUnitCircleWindow();
 }
 // fall through drawing
 void draw() 
@@ -71,9 +83,12 @@ void mouseReleased() {
 void drawbg() {
   background(255);
   fill(255);
-  functionWindowHeight = height - (height/4 + 2*padding);
-  functionWindowWidth = width - 2*padding;
+  
   rect(padding, padding, functionWindowWidth, functionWindowHeight); // Draw the rectangle for the canvas
+  rect(unitCircleWindowX,unitCircleWindowY,unitCircleWindowWidth,unitCircleWindowHeight);
+  line(padding, padding + functionWindowHeight/2, padding + functionWindowWidth, padding + functionWindowHeight/2);
+  line(padding + functionWindowWidth/2, padding, padding + functionWindowWidth/2, functionWindowHeight+padding);
+  
 }
 
 /**

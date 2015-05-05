@@ -20,6 +20,10 @@ int pastFunctionNumber = 0;
 float pastAmplitude = 1;
 float pastFrequency = 1;
 
+int radius = 0;
+float unitCircleCenterX = 0;
+float unitCircleCenterY = 0;
+
 char[] SendBuffer = new char[4];
 
 //to be called at the end
@@ -28,6 +32,13 @@ void setupFunctionWindow()
   port = new Serial(this, Serial.list()[serialPort], 9600);  //
   // A serialEvent() is generated when a newline character is received :
   port.bufferUntil('\n');
+}
+
+void setupUnitCircleWindow()
+{
+  radius = unitCircleWindowWidth/2-padding;
+  unitCircleCenterX = unitCircleWindowX + unitCircleWindowWidth/2;
+  unitCircleCenterY = unitCircleWindowY + unitCircleWindowHeight/2;
 }
 
 
@@ -47,6 +58,13 @@ void drawFunctionWindow(  )
       }
   if (DRAWFUNCTION == true)
   {
+    //draw ellipse:
+    //ellipse(20, 20, radius*amplitude*2, radius*amplitude*2);
+    float circleRadius = radius*amplitude;
+    float px = 0;
+    float py = 0;
+    float angle = 0;
+    ellipse(unitCircleCenterX,unitCircleCenterY,circleRadius*2,circleRadius*2);
     //py = functionWindowHeight/2+(functionWindowHeight/2)*amplitude*sin((2*PI*frequency*2/functionWindowWidth)*x);
     for (int i = -(functionWindowWidth/2); i< (functionWindowWidth/2); i++)
     {
@@ -56,13 +74,13 @@ void drawFunctionWindow(  )
         case 0:
           py2 = 0;
         break;
-        case 3: // sine
+        case 1: // sine
           py2 = (f_WindowHeight/2) * amplitude*sin((2*PI*frequency*2/f_WindowWidth)*i);
         break;
         case 2: //cos
           py2 = (f_WindowHeight/2) * amplitude*cos((2*PI*frequency*2/f_WindowWidth)*i);
         break;
-        case 1: //-x
+        case 3: //-x
           py2 =  (-f_WindowHeight/f_WindowWidth) *amplitude* i;
         break;
         default:
@@ -80,10 +98,13 @@ void drawFunctionWindow(  )
         }
         point(i+padding+functionWindowWidth/2, -py2+padding+functionWindowHeight/2);
      }
-    line(width/2, padding, width/2, functionWindowHeight+padding);
-    line(padding, functionWindowHeight/2+padding, width - padding, functionWindowHeight/2+padding);
+    
     stroke(127,34,255);     //stroke color
-    ellipse(xByte+padding, padding+functionWindowHeight-fByte, 5, 5); 
+    ellipse(xByte+padding, padding+functionWindowHeight-fByte, 5, 5);
+    angle = (2*PI*frequency*2/f_WindowWidth)*xByte;
+    px = circleRadius*cos(angle);
+    py = -circleRadius*sin(angle);
+    ellipse(unitCircleCenterX+px,unitCircleCenterY+py,5,5); 
   }
 }
 

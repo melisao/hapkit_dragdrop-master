@@ -12,13 +12,13 @@ float  py, py2;
 
 //variables that should be shared between both codes
 int functionNumber = 0;
-float amplitude = 1; //has to be between 0 and 1
-float frequency = 1;
+float amplitude = 0; //has to be between 0 and 1
+float frequency = 0;
 boolean DRAWFUNCTION = true;
 
 int pastFunctionNumber = 0;
-float pastAmplitude = 1;
-float pastFrequency = 1;
+float pastAmplitude = 0;
+float pastFrequency = 0;
 
 int radius = 0;
 float unitCircleCenterX = 0;
@@ -75,13 +75,13 @@ void drawFunctionWindow(  )
           py2 = 0;
         break;
         case 1: // sine
-          py2 = (f_WindowHeight/2) * amplitude*sin((2*PI*frequency*2/f_WindowWidth)*i);
+          py2 = (f_WindowHeight/2) * amplitude*sin((2*PI*frequency*2/f_WindowWidth)*float(i));
         break;
         case 2: //cos
-          py2 = (f_WindowHeight/2) * amplitude*cos((2*PI*frequency*2/f_WindowWidth)*i);
+          py2 = (f_WindowHeight/2) * amplitude*cos((2*PI*frequency*2/f_WindowWidth)*float(i));
         break;
         case 3: //-x
-          py2 =  (-f_WindowHeight/f_WindowWidth) *amplitude* i;
+          py2 =  (-f_WindowHeight/f_WindowWidth) *amplitude* float(i);
         break;
         default:
           py2 = 0;
@@ -100,7 +100,7 @@ void drawFunctionWindow(  )
      }
     
     stroke(127,34,255);     //stroke color
-    ellipse(xByte+padding, padding+functionWindowHeight-fByte, 5, 5);
+    ellipse(xByte+padding+functionWindowWidth/2, padding+functionWindowHeight/2-fByte, 5, 5);
     angle = (2*PI*frequency*2/f_WindowWidth)*xByte;
     px = circleRadius*cos(angle);
     py = -circleRadius*sin(angle);
@@ -120,10 +120,12 @@ void serialEvent (Serial port) {
     xByte = float(xString);           // convert to a number.
     String fString = trim(list[1]);
     fByte = float(fString);
-    
+    println("before: ", xByte, fByte);
     fByte = map(fByte, -1000, 1000, 0, functionWindowHeight); //map to the screen height.
     xByte = map(xByte, -500, 500, 0, functionWindowWidth); //map to the screen width.
-    //println("after: ", xByte, fByte);
+    fByte = fByte -functionWindowHeight/2;
+    xByte = xByte - functionWindowWidth/2;
+    println("after: ", xByte, fByte);
   } 
  }
 

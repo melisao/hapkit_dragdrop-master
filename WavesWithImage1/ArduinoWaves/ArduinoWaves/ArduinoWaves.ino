@@ -195,13 +195,13 @@ lastVel = vel;
     case 0:
        force = 0; 
      break;
-     case 1:
+     case 3:
        force = (2*amplitude)*sin((freq * x*2*PI)/0.05);
      break;
      case 2:
        force = (2*amplitude)*cos((freq * x*2*PI)/0.05);
       break;
-     case 3:
+     case 1:
        force = -2*amplitude*(x/0.05);
      break;
     default:
@@ -224,7 +224,7 @@ lastVel = vel;
   //*** Section 4. Force output (do not change) *****************
   //*************************************************************
   //Determine correct direction
-  if(force > 0)  //[N]
+  if(force < 0)  //[N]
   {
     digitalWrite(dirPinA, HIGH);
     //Serial.print("+");

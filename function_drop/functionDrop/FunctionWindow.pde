@@ -33,6 +33,8 @@ void setupFunctionWindow()
 
 void drawFunctionWindow(  )
 {
+  float f_WindowWidth = functionWindowWidth;
+  float f_WindowHeight = functionWindowHeight;
   if ((functionNumber != pastFunctionNumber) || 
       (amplitude != pastAmplitude) ||
       (frequency != pastFrequency))
@@ -54,14 +56,14 @@ void drawFunctionWindow(  )
         case 0:
           py2 = 0;
         break;
-        case 1: // sine
-          py2 = (functionWindowHeight/2) * amplitude*sin((2*PI*frequency*2/functionWindowWidth)*i);
+        case 3: // sine
+          py2 = (f_WindowHeight/2) * amplitude*sin((2*PI*frequency*2/f_WindowWidth)*i);
         break;
         case 2: //cos
-          py2 = (functionWindowHeight/2) * amplitude*cos((2*PI*frequency*2/functionWindowWidth)*i);
+          py2 = (f_WindowHeight/2) * amplitude*cos((2*PI*frequency*2/f_WindowWidth)*i);
         break;
-        case 3: //-x
-          py2 =  (-functionWindowHeight/functionWindowWidth)*(amplitude) * (i);
+        case 1: //-x
+          py2 =  (-f_WindowHeight/f_WindowWidth) *amplitude* i;
         break;
         default:
           py2 = 0;

@@ -50,7 +50,7 @@ void Question1()
   //yes equation: 0.5sin(2x)
   fnblocks.hide = true;
   droptarget.removeCurFn();
-  fnblocks.updateBlock(1, "sin", 0.5, 2);
+  fnblocks.updateBlock(1, "sin", 0.5, 2,true);
   droptarget.dropfn(fnblocks.getFn(1));
   println("Q1");
 }
@@ -66,7 +66,7 @@ void Question2()
   // no equation displayed : 0.6cos(3x)
   fnblocks.hide = true;
   droptarget.removeCurFn();
-  fnblocks.updateBlock(2, "cos", 0.6, 3);
+  fnblocks.updateBlock(2, "cos", 0.6, 3,true);
   droptarget.dropfn(fnblocks.getFn(2));
   println("Q2");
 }

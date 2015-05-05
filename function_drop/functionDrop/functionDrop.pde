@@ -32,8 +32,9 @@ void setup() {
 
   // Add FnBlocks to FnCollection
   // Add more functions here!
-  fnblocks.updateBlock(1, "sin", 1, 1);
-  fnblocks.updateBlock(2, "cos", 1, 1);
+  fnblocks.updateBlock(1, "sin", 1, 1,true);
+  fnblocks.updateBlock(2, "cos", 1, 1,true);
+  fnblocks.updateBlock(3, "-x",  1, 1,false);
 
   // Do not loop! only update when events warrant,
   // based on redraw() calls  
@@ -89,17 +90,18 @@ class FnCollection {
     fnblocks = new HashMap<Integer, FnBlock>();
   }
 
-  void updateBlock(int myFunctionNumber_, String s_, float myAmplitude_, float myFrequency_) {
+  void updateBlock(int myFunctionNumber_, String s_, float myAmplitude_, float myFrequency_, boolean myHasFrequency_) {
     FnBlock temp_block;
     if (fnblocks.containsKey(myFunctionNumber_)) {
       temp_block = fnblocks.get(myFunctionNumber_);
       temp_block.myAmplitude = myAmplitude_;
       temp_block.myFrequency = myFrequency_;
       temp_block.base_string = s_;
+      temp_block.myHasFrequency = myHasFrequency_;
     } else {
       int x = (int) random(padding, width - padding);
       int y = (int) random(height - (height/4 + padding), height - padding);
-      temp_block = new FnBlock(s_, x, y, color(random(255)), myFunctionNumber_, myAmplitude_, myFrequency_);
+      temp_block = new FnBlock(s_, x, y, color(random(255)), myFunctionNumber_, myAmplitude_, myFrequency_, myHasFrequency_);
     }
     fnblocks.put(myFunctionNumber_, temp_block);
   }
@@ -169,10 +171,19 @@ class FnBlock {
   float myAmplitude = 0;
   float myFrequency = 0;
   int myFunctionNumber = 0;
+  boolean myHasFrequency = false;
 
-  public FnBlock(String s_, int x_, int y_, color c_, int myFunctionNumber_, float myAmplitude_, float myFrequency_) {    
+  public FnBlock(String s_, int x_, int y_, color c_, int myFunctionNumber_, float myAmplitude_, float myFrequency_, boolean myHasFrequency_) {    
     base_string = s_;
-    String s = "f(x) = " + myAmplitude + "(" + base_string + "(" + myFrequency + "x))";
+    String s;
+    if (myHasFrequency_ == true )
+    {
+      s = "f(x) = " + myAmplitude + "(" + base_string + "(" + myFrequency + "x))";
+    }
+    else
+    {
+      s = "f(x) = " + myAmplitude + "(" + base_string + ")";
+    }
     x = x_;
     y = y_;
     w = textWidth(s);
@@ -181,6 +192,7 @@ class FnBlock {
     myFunctionNumber = myFunctionNumber_;
     myAmplitude = myAmplitude_;
     myFrequency = myFrequency_;
+    myHasFrequency = myHasFrequency_;
   }
   
   void randomLocation() {
@@ -191,7 +203,15 @@ class FnBlock {
   void draw() {
     String ramp = String.format("%.2f", myAmplitude);
     String rfreq = String.format("%.2f", myFrequency);
-    String s = "f(x) = " + ramp + "(" + base_string + "(" + rfreq + "x))";
+    String s;
+    if (myHasFrequency == true )
+    {
+      s = "f(x) = " + ramp + "(" + base_string + "(" + rfreq + "x))";
+    }
+    else
+    {
+      s = "f(x) = " + myAmplitude + "(" + base_string + ")";
+    }
     fill(fillColor);
     text(s, ox+x, oy+y+h);
   }

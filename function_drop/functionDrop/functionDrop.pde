@@ -170,7 +170,7 @@ class FnCollection {
       temp_block.myFrequency = myFrequency_;
       temp_block.base_string = s_;
     } else {
-      int x = (int) random(2*padding, width - (6*padding));
+      int x = (int) random(2*padding, width - (10*padding));
       int y = (int) random(height - (height/5), height - padding*2);
       temp_block = new FnBlock(s_, x, y, color(random(255)), myFunctionNumber_, myAmplitude_, myFrequency_);
     }

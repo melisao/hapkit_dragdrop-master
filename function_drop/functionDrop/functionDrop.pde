@@ -16,6 +16,19 @@ int unitCircleWindowWidth;
 int unitCircleWindowX;
 int unitCircleWindowY;
 
+boolean CHANGEAXES = true;
+boolean DEGREEAXES = false;
+
+String pi = Character.toString(char(0x03c0));
+
+String[] x_ticks = {
+  "-2"+pi, "-1"+pi, "0", "1"+pi, "2"+pi
+};
+//String[] x_ticks_deg = {"-360", "180", "0", "180", "360"};
+String[] y_ticks = {
+  "-1", "-0.5", "", "0.5", "1"
+};
+
 void setup() {
   size(800, 800);
   textSize = 20; 
@@ -28,15 +41,12 @@ void setup() {
   setupGUI();
   functionWindowHeight = height - (height/4 + 3*padding);
   functionWindowWidth = width - (width/4 + 3*padding);
+
+  // Set coordinates for the unit circle window
   unitCircleWindowY =  padding;
   unitCircleWindowX = functionWindowWidth + 2*padding;
   unitCircleWindowWidth = width - functionWindowWidth-3*padding;
   unitCircleWindowHeight = unitCircleWindowWidth;
-
-  // Create function strings
-  String[] textValues = new String[] {
-    "f(x) = sin(x)", "f(x) = 2sin(0.5x)"
-  };
 
   // Create collection for FnBlocks
   fnblocks = new FnCollection();
@@ -55,7 +65,8 @@ void setup() {
 // fall through drawing
 void draw() 
 { 
-  drawbg(); 
+  drawbg();
+  drawAxes();
   drawFunctionWindow();
   droptarget.draw(); 
   fnblocks.draw();
@@ -83,12 +94,59 @@ void mouseReleased() {
 void drawbg() {
   background(255);
   fill(255);
-  
+
   rect(padding, padding, functionWindowWidth, functionWindowHeight); // Draw the rectangle for the canvas
-  rect(unitCircleWindowX,unitCircleWindowY,unitCircleWindowWidth,unitCircleWindowHeight);
+  rect(unitCircleWindowX, unitCircleWindowY, unitCircleWindowWidth, unitCircleWindowHeight);
+}
+
+void drawAxes() {
+  // Draw the axes in the main window
+
+  stroke(153);     //stroke color
+
+  // Draw the line for the x-axis
   line(padding, padding + functionWindowHeight/2, padding + functionWindowWidth, padding + functionWindowHeight/2);
+
+  // Draw the line for the y-axis
   line(padding + functionWindowWidth/2, padding, padding + functionWindowWidth/2, functionWindowHeight+padding);
-  
+
+  // Label the axes
+  fill(0);
+  String xl = "x-axis";
+  String yl = "y-axis";
+
+  // The following conditional changes the labels of the axes to reflect the function in the dropTarget.
+  // To turn this off set CHANGEAXES to false at the top of the file
+  if (!droptarget.empty() && CHANGEAXES == true) {
+    xl = "x";
+    // Uncomment the following line to change the x-axis label to theta
+    //xl = Character.toString(char(0x03b8));
+    yl = droptarget.curFn.full_string;
+    println(droptarget.curFn.full_string);
+  }
+
+  // Write the labels
+  text(xl, functionWindowWidth - textWidth(xl), functionWindowHeight/2 + 2 * padding);
+  text(yl, functionWindowWidth/2 + padding * 2, 2 * padding);
+
+  // Add hash marks with labels on the x-axis
+  for (int i = 0; i < x_ticks.length; i++) {
+    int tick_pos = padding + (i * functionWindowWidth)/(x_ticks.length - 1);
+    text(x_ticks[i], tick_pos, functionWindowHeight/2 + 2 * padding);
+    stroke(0);
+    line(tick_pos, functionWindowHeight/2+padding + 5, tick_pos, functionWindowHeight/2+padding - 5);
+  }
+
+  // Add hash marks with labels on the y-axis from -1 to 1
+  for (int i = y_ticks.length - 1; i >= 0; i--) {
+    int tick_pos = padding + (i * functionWindowHeight)/(y_ticks.length - 1);
+    text(y_ticks[i], functionWindowWidth/2 + padding, tick_pos);
+    stroke(0);
+    line(functionWindowWidth/2 + padding, tick_pos, functionWindowWidth/2 + padding, tick_pos);
+  }
+
+  // Set the fill back to 255 so the circle coloring doesn't get messed up
+  fill(255);
 }
 
 /**
@@ -112,13 +170,13 @@ class FnCollection {
       temp_block.myFrequency = myFrequency_;
       temp_block.base_string = s_;
     } else {
-      int x = (int) random(padding, width - padding);
-      int y = (int) random(height - (height/4 + padding), height - padding);
+      int x = (int) random(2*padding, width - (6*padding));
+      int y = (int) random(height - (height/5), height - padding*2);
       temp_block = new FnBlock(s_, x, y, color(random(255)), myFunctionNumber_, myAmplitude_, myFrequency_);
     }
     fnblocks.put(myFunctionNumber_, temp_block);
   }
-  
+
   FnBlock getFn(int fnNumber) {
     if (fnblocks.containsKey(fnNumber)) {
       return (fnblocks.get(fnNumber));
@@ -174,6 +232,7 @@ class FnCollection {
  */
 class FnBlock {
   String base_string;
+  String full_string;
   float x, y, w, h;
   boolean active;
   color baseColor = 0;
@@ -187,17 +246,17 @@ class FnBlock {
 
   public FnBlock(String s_, int x_, int y_, color c_, int myFunctionNumber_, float myAmplitude_, float myFrequency_) {    
     base_string = s_;
-    String s = "f(x) = " + myAmplitude + "(" + base_string + "(" + myFrequency + "x))";
+    full_string = "f(x) = " + myAmplitude + "(" + base_string + "(" + myFrequency + "x))";
     x = x_;
     y = y_;
-    w = textWidth(s);
+    w = textWidth(full_string);
     h = textSize;
     //fillColor = _c;
     myFunctionNumber = myFunctionNumber_;
     myAmplitude = myAmplitude_;
     myFrequency = myFrequency_;
   }
-  
+
   void randomLocation() {
     x = (int) random(padding, width - padding);
     y = (int) random(height - (height/4 + padding), height - padding);
@@ -206,9 +265,9 @@ class FnBlock {
   void draw() {
     String ramp = String.format("%.2f", myAmplitude);
     String rfreq = String.format("%.2f", myFrequency);
-    String s = "f(x) = " + ramp + "(" + base_string + "(" + rfreq + "x))";
+    full_string = "f(x) = " + ramp + "(" + base_string + "(" + rfreq + "x))";
     fill(fillColor);
-    text(s, ox+x, oy+y+h);
+    text(full_string, ox+x, oy+y+h);
   }
 
   boolean over(int mx, int my) {
@@ -378,6 +437,14 @@ void setupGUI() {
       .setPosition(width - 150, height - 50)
         .setSize(100, 20)
           ;
+
+  // create a new button with name 'Disable Graph'
+  cp5.addButton("disableGraph")
+    .setValue(1)
+      .setPosition(width - 150, height - 100)
+        .setSize(100, 20)
+          .getCaptionLabel().setText("Hide Graph");
+  ;
 }
 
 void sliderAmp(float slider_amp) {
@@ -423,5 +490,27 @@ public void startQuiz(int buttonValue) {
   cp5.getController("startQuiz").setBroadcast(false);
   cp5.getController("startQuiz").setValue(tempVal);
   cp5.getController("startQuiz").setBroadcast(true);
+}
+
+public void disableGraph(int buttonValue) {
+  println("a button event from disableGraph: "+buttonValue);
+  float tempVal = (int)buttonValue;
+  if (tempVal == 0) {
+    TRACEFUNCTION = false;
+    tempVal = 1;
+    cp5.getController("disableGraph").getCaptionLabel().setText("Show Graph");
+  } else {
+    TRACEFUNCTION = true;
+    tempVal = 0;
+    cp5.getController("disableGraph").getCaptionLabel().setText("Hide Graph");
+  }
+
+  println(cp5.getController("disableGraph").getValue());
+  // If the button is set to broadcast, setting the value will trigger an event.
+  // This cause the button to go into an infinite loop. To prevent this, disable
+  // broadcast, set the value, and re-enable broadcast.
+  cp5.getController("disableGraph").setBroadcast(false);
+  cp5.getController("disableGraph").setValue(tempVal);
+  cp5.getController("disableGraph").setBroadcast(true);
 }
 

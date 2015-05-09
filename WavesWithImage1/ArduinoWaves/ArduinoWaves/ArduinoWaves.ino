@@ -70,8 +70,8 @@ double b = 9.8235;
 
 
 // Processing variables
-String xAPrint = 0;
-String fAPrint = 0;
+String xAPrint = "0";
+String fAPrint = "0";
 int constant = 10000;
 int count = 0;
 

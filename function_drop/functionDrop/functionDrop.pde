@@ -29,6 +29,10 @@ String[] y_ticks = {
   "-1", "-0.5", "", "0.5", "1"
 };
 
+String[] unit_ticks = {
+  "-1", "", "", "", "1"
+};
+
 void setup() {
   size(800, 800);
   textSize = 20; 
@@ -67,6 +71,7 @@ void draw()
 { 
   drawbg();
   drawAxes();
+  drawUnitCircleAxes();
   drawFunctionWindow();
   droptarget.draw(); 
   fnblocks.draw();
@@ -149,6 +154,47 @@ void drawAxes() {
   fill(255);
 }
 
+void drawUnitCircleAxes() {
+  // Draw the axes in the main window
+
+  stroke(153);     //stroke color
+
+  // Draw the line for the x-axis
+  line(unitCircleWindowX, unitCircleWindowY + unitCircleWindowHeight/2, unitCircleWindowX+unitCircleWindowWidth, unitCircleWindowY + unitCircleWindowHeight/2);
+
+  // Draw the line for the y-axis
+  line(unitCircleWindowX + unitCircleWindowWidth/2, unitCircleWindowY, unitCircleWindowX + unitCircleWindowWidth/2, unitCircleWindowY + unitCircleWindowHeight);
+   
+   // Label the axes
+  fill(0);
+  String xl = "x-axis";
+  String yl = "y-axis";
+
+  // Write the labels
+  //text(xl, unitCircleWindowX + unitCircleWindowWidth - textWidth(xl), unitCircleWindowY + unitCircleWindowHeight/2);
+  //text(yl, unitCircleWindowX + unitCircleWindowWidth/2 - textWidth(yl), unitCircleWindowY + unitCircleWindowHeight);
+
+  // Add hash marks with labels on the x-axis
+
+  for (int i = 0; i < unit_ticks.length; i++) {
+    int tick_pos = unitCircleWindowX + (unitCircleWindowWidth - (radius*2))/2 + (i * radius * 2)/(unit_ticks.length - 1);
+    text(unit_ticks[i], tick_pos, unitCircleWindowHeight/2 + 2 * padding);
+    stroke(0);
+    line(tick_pos, unitCircleWindowHeight/2+padding + 1, tick_pos, unitCircleWindowHeight/2+padding - 1);
+  }
+  
+  for (int i = unit_ticks.length - 1; i >= 0; i--) {
+    int tick_pos = padding + (unitCircleWindowHeight - (radius*2))/2 + (i * radius * 2)/(unit_ticks.length - 1);
+    text(unit_ticks[unit_ticks.length - 1 - i], unitCircleWindowX + unitCircleWindowWidth/2 + 5, tick_pos);
+    stroke(0);
+    line(unitCircleWindowX + unitCircleWindowWidth/2 - 1, tick_pos, unitCircleWindowX + unitCircleWindowWidth/2 + 1, tick_pos);
+  }
+
+  // Set the fill back to 255 so the circle coloring doesn't get messed up
+  fill(255);
+}
+ 
+ 
 /**
  * A collection of function blocks. This is *only* a collecton,
  * it is simply responsible for passing along events.

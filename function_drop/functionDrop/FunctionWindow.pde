@@ -65,6 +65,7 @@ void drawFunctionWindow(  )
     float px = 0;
     float py = 0;
     float angle = 0;
+    fill(0, 0, 0, 0);
     ellipse(unitCircleCenterX, unitCircleCenterY, circleRadius*2, circleRadius*2);
     //py = functionWindowHeight/2+(functionWindowHeight/2)*amplitude*sin((2*PI*frequency*2/functionWindowWidth)*x);
     for (int i = - (functionWindowWidth/2); i< (functionWindowWidth/2); i++)

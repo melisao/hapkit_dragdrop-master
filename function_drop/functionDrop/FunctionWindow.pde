@@ -106,7 +106,7 @@ void drawFunctionWindow(  )
     String fixed_angle = String.format("%.2f", (2*PI*2/f_WindowWidth)*xByte);
     px = circleRadius*cos(angle);
     py = -circleRadius*sin(angle);
-    String fixed_y = String.format("%.2f", (-(padding+functionWindowHeight/2-fByte) + (padding+functionWindowHeight/2))/(functionWindowHeight/2));
+    String fixed_y = String.format("%.2f", (2 * fByte)/functionWindowHeight);
     
     if (TRACEFUNCTION == true) {
       stroke(255, 34, 255);     //stroke color purplish

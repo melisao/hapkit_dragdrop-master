@@ -415,11 +415,18 @@ class DropTarget {
 }
 
 void setupGUI() {
+  int minAmp = -1;
+  int maxAmp = 1;
+  
+  int minFreq = 0;
+  int maxFreq = 4;
+  
   // Create horizontal amplitude slider
   // The value of this slider will be linked to the sliderAmp function
   cp5.addSlider("sliderAmp")
     .setPosition(droptarget.x + droptarget.w + padding, droptarget.y)
-      .setRange(-1, 1)
+      .setRange(minAmp, maxAmp)
+        .setNumberOfTickMarks((maxAmp - minAmp)*10 + 1);
         ;
   cp5.getController("sliderAmp").getCaptionLabel().setText("Amplitude").setColor(0);
 
@@ -427,7 +434,8 @@ void setupGUI() {
   // The value of this slider will be linked to the sliderFreq function 
   cp5.addSlider("sliderFreq")
     .setPosition(droptarget.x + droptarget.w + padding, droptarget.y + padding)
-      .setRange(0, 3)
+      .setRange(minFreq, maxFreq)
+        .setNumberOfTickMarks((maxFreq - minFreq)*10 + 1);
         ;
   cp5.getController("sliderFreq").getCaptionLabel().setText("Frequency").setColor(0);
 

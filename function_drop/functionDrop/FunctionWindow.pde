@@ -103,17 +103,23 @@ void drawFunctionWindow(  )
 
     stroke(127, 34, 255);     //stroke color
     angle = (2*PI*frequency*2/f_WindowWidth)*xByte;
+    String fixed_angle = String.format("%.2f", (2*PI*2/f_WindowWidth)*xByte);
     px = circleRadius*cos(angle);
     py = -circleRadius*sin(angle);
+    String fixed_y = String.format("%.2f", (-(padding+functionWindowHeight/2-fByte) + (padding+functionWindowHeight/2))/(functionWindowHeight/2));
+    
     if (TRACEFUNCTION == true) {
-      stroke(255, 34, 255);     //stroke color
+      stroke(255, 34, 255);     //stroke color purplish
       ellipse(xByte+padding+functionWindowWidth/2, padding+functionWindowHeight/2, 5, 5);
-      stroke(127, 34, 255);     //stroke color
+      stroke(127, 34, 255);     //stroke color reddish
       ellipse(xByte+padding+functionWindowWidth/2, padding+functionWindowHeight/2-fByte, 5, 5);
+      fill(0);
+      text("("+fixed_angle+", "+fixed_y+")", xByte+padding*2+functionWindowWidth/2, padding+functionWindowHeight/2-fByte);
+      fill(255);
     } else {
-      stroke(255, 34, 255);     //stroke color
+      stroke(255, 34, 255);     //stroke color reddish
       ellipse(xByte+padding+functionWindowWidth/2, padding+functionWindowHeight/2, 5, 5);
-      stroke(127, 34, 255);     //stroke color
+      stroke(127, 34, 255);     //stroke color purplish
     }
     ellipse(unitCircleCenterX+px, unitCircleCenterY+py, 5, 5);
   }

@@ -106,9 +106,14 @@ void drawFunctionWindow(  )
     px = circleRadius*cos(angle);
     py = -circleRadius*sin(angle);
     if (TRACEFUNCTION == true) {
+      stroke(255, 34, 255);     //stroke color
+      ellipse(xByte+padding+functionWindowWidth/2, padding+functionWindowHeight/2, 5, 5);
+      stroke(127, 34, 255);     //stroke color
       ellipse(xByte+padding+functionWindowWidth/2, padding+functionWindowHeight/2-fByte, 5, 5);
     } else {
+      stroke(255, 34, 255);     //stroke color
       ellipse(xByte+padding+functionWindowWidth/2, padding+functionWindowHeight/2, 5, 5);
+      stroke(127, 34, 255);     //stroke color
     }
     ellipse(unitCircleCenterX+px, unitCircleCenterY+py, 5, 5);
   }
@@ -127,12 +132,12 @@ void serialEvent (Serial port) {
     xByte = float(xString);           // convert to a number.
     String fString = trim(list[1]);
     fByte = float(fString);
-    println("before: ", xByte, fByte);
+    //println("before: ", xByte, fByte);
     fByte = map(fByte, -1000, 1000, 0, functionWindowHeight); //map to the screen height.
     xByte = map(xByte, -500, 500, 0, functionWindowWidth); //map to the screen width.
     fByte = fByte -functionWindowHeight/2;
     xByte = xByte - functionWindowWidth/2;
-    println("after: ", xByte, fByte);
+    //println("after: ", xByte, fByte);
   }
 }
 

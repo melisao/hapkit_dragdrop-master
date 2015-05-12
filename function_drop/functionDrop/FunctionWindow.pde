@@ -60,14 +60,13 @@ void drawFunctionWindow(  )
   {
     stroke(127, 34, 255);     //stroke color
     //draw ellipse:
-    //ellipse(20, 20, radius*amplitude*2, radius*amplitude*2);
     float circleRadius = radius*amplitude;
     float px = 0;
     float py = 0;
     float angle = 0;
     fill(0, 0, 0, 0);
     ellipse(unitCircleCenterX, unitCircleCenterY, circleRadius*2, circleRadius*2);
-    //py = functionWindowHeight/2+(functionWindowHeight/2)*amplitude*sin((2*PI*frequency*2/functionWindowWidth)*x);
+    
     for (int i = - (functionWindowWidth/2); i< (functionWindowWidth/2); i++)
     {
       //px2 = width/8 + cos(radians(angle2))*(radius);
@@ -110,9 +109,9 @@ void drawFunctionWindow(  )
     String fixed_y = String.format("%.2f", (2 * fByte)/functionWindowHeight);
     
     if (TRACEFUNCTION == true) {
-      stroke(255, 34, 255);     //stroke color purplish
+      stroke(255, 34, 255);     //stroke color reddish
       ellipse(xByte+padding+functionWindowWidth/2, padding+functionWindowHeight/2, 5, 5);
-      stroke(127, 34, 255);     //stroke color reddish
+      stroke(127, 34, 255);     //stroke color purplish
       ellipse(xByte+padding+functionWindowWidth/2, padding+functionWindowHeight/2-fByte, 5, 5);
       fill(0);
       text("("+fixed_angle+", "+fixed_y+")", xByte+padding*2+functionWindowWidth/2, padding+functionWindowHeight/2-fByte);
@@ -122,7 +121,23 @@ void drawFunctionWindow(  )
       ellipse(xByte+padding+functionWindowWidth/2, padding+functionWindowHeight/2, 5, 5);
       stroke(127, 34, 255);     //stroke color purplish
     }
+    
+    // This draw the bead that traces along the circumfrence of the circle
     ellipse(unitCircleCenterX+px, unitCircleCenterY+py, 5, 5);
+    
+    stroke(245, 131, 243);     //stroke color pinkish
+    
+    // Draw a line from the center of the circle to the bead on the circumfrence
+    line(unitCircleCenterX, unitCircleCenterY, unitCircleCenterX+px, unitCircleCenterY+py);
+    
+    stroke(127, 255, 255);     //stroke color purplish
+    
+    // Drop a line from the bead to the x-axis
+    line(unitCircleCenterX+px, unitCircleCenterY+py, unitCircleCenterX+px, unitCircleCenterY);
+    
+    // Draw a line from the center of the circle to complete the right triangle
+    line(unitCircleCenterX, unitCircleCenterY, unitCircleCenterX+px, unitCircleCenterY);
+    
   }
 }
 
